@@ -1,8 +1,8 @@
-import type { ButtonProps } from "./components/button/Button";
+import type { ButtonProps } from "../components/button/Button";
 
 import { Plus } from "lucide-react";
 
-import { Button } from "./components/button/Button";
+import { Button } from "../components/button/Button";
 
 const sizes: ButtonProps["size"][] = ["sm", "md", "lg", "xl", "xl"];
 const variants: ButtonProps["variant"][] = ["primary", "outline", "ghost"];
