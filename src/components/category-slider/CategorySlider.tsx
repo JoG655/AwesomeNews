@@ -3,6 +3,7 @@
 import type {
   ComponentProps,
   Dispatch,
+  FocusEvent,
   ReactNode,
   SetStateAction,
 } from "react";
@@ -86,6 +87,36 @@ export function CategorySlider({
     return newTranslate + width >= edge ? edge - width : newTranslate;
   }
 
+  function handleButtonFocus(e: FocusEvent) {
+    if (e.target === e.relatedTarget) return;
+
+    if (containerRef.current == null) return;
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const elementRect = e.target.getBoundingClientRect();
+
+    if (elementRect.x - NAVIGATION_WIDTH < containerRect.x) {
+      setTranslateOffset((t) => {
+        return translateLeftCalc(t, elementRect.width + TRANSLATE_DELTA);
+      });
+    } else if (
+      elementRect.x + elementRect.width + NAVIGATION_WIDTH >
+      containerRect.x + containerRect.width
+    ) {
+      setTranslateOffset((t) => {
+        return translateRightCalc(t, elementRect.width + TRANSLATE_DELTA);
+      });
+    }
+  }
+
+  function handleVariantMouseDown(variant: "Left" | "Right") {
+    setTranslateOffset((t) => {
+      return (
+        variant === "Left" ? translateLeftCalc : translateRightCalc
+      ).apply(null, [t, TRANSLATE_DELTA]);
+    });
+  }
+
   return (
     <div
       ref={containerRef}
@@ -105,11 +136,7 @@ export function CategorySlider({
             btnType="icon"
             size="sm"
             className="aspect-square h-full w-auto py-1.5"
-            onMouseDown={() => {
-              setTranslateOffset((t) => {
-                return translateLeftCalc(t, TRANSLATE_DELTA);
-              });
-            }}
+            onMouseDown={() => handleVariantMouseDown("Left")}
           >
             <ChevronLeft />
           </Button>
@@ -125,34 +152,7 @@ export function CategorySlider({
               variant={selectedCategory === c ? "primary" : "ghost"}
               className="whitespace-nowrap rounded-lg px-3 py-1"
               onMouseDown={() => onSelectCategory(c)}
-              onFocus={(e) => {
-                if (e.target === e.relatedTarget) return;
-
-                if (containerRef.current == null) return;
-
-                const containerRect =
-                  containerRef.current.getBoundingClientRect();
-                const elementRect = e.target.getBoundingClientRect();
-
-                if (elementRect.x - NAVIGATION_WIDTH < containerRect.x) {
-                  setTranslateOffset((t) => {
-                    return translateLeftCalc(
-                      t,
-                      elementRect.width + TRANSLATE_DELTA,
-                    );
-                  });
-                } else if (
-                  elementRect.x + elementRect.width + NAVIGATION_WIDTH >
-                  containerRect.x + containerRect.width
-                ) {
-                  setTranslateOffset((t) => {
-                    return translateRightCalc(
-                      t,
-                      elementRect.width + TRANSLATE_DELTA,
-                    );
-                  });
-                }
-              }}
+              onFocus={(e) => handleButtonFocus(e)}
             >
               {c}
             </Button>
@@ -170,11 +170,7 @@ export function CategorySlider({
             btnType="icon"
             size="sm"
             className="ml-auto aspect-square h-full w-auto py-1.5"
-            onMouseDown={() => {
-              setTranslateOffset((t) => {
-                return translateRightCalc(t, TRANSLATE_DELTA);
-              });
-            }}
+            onMouseDown={() => handleVariantMouseDown("Right")}
           >
             <ChevronRight />
           </Button>
