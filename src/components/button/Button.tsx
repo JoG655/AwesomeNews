@@ -2,9 +2,9 @@ import type { VariantProps } from "class-variance-authority";
 
 import type { ComponentProps } from "react";
 
-import { buttonCVA } from "./buttonCVA";
-
 import { twMerge } from "tailwind-merge";
+
+import { buttonCVA } from "./buttonCVA";
 
 export type ButtonProps = VariantProps<typeof buttonCVA> &
   ComponentProps<"button">;

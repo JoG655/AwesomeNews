@@ -1,20 +1,22 @@
 "use client";
 
-import type { Locale } from "../../supportedLocales";
-
-import type { ChangeEvent } from "react";
-
-import { supportedLocales } from "../../supportedLocales";
-
-import { useLocale } from "next-intl";
+import type { ChangeEvent, ComponentProps } from "react";
+import { useTransition } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { buttonCVA } from "../button/buttonCVA";
+import { useLocale } from "next-intl";
 
-import { useTransition } from "react";
+import type { Locale } from "@/supportedLanguages";
+import { supportedLanguages } from "@/supportedLanguages";
 
-export function LocalSwitcher() {
+import { twMerge } from "tailwind-merge";
+
+import { buttonCVA } from "@/components/button/buttonCVA";
+
+export type LocaleSwitchProps = ComponentProps<"select">;
+
+export function LocalSwitch({ className, ...rest }: LocaleSwitchProps) {
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
@@ -26,22 +28,27 @@ export function LocalSwitcher() {
       router.replace(`/${e.target.value}`);
     });
   };
-  return Object.keys(supportedLocales).length !== 0 ? (
+
+  return supportedLanguages.locales.length !== 0 ? (
     <>
       <label htmlFor="ChangeLanguage" className="sr-only">
         Change Language
       </label>
       <select
         id="ChangeLanguage"
-        className={buttonCVA({ variant: "outline", size: "md" })}
+        className={twMerge(
+          buttonCVA({ variant: "outline", size: "md" }),
+          className,
+        )}
         onChange={handleChange}
         defaultValue={localActive}
         disabled={isPending}
+        {...rest}
       >
-        {Object.entries(supportedLocales).map(([locale, description]) => {
+        {supportedLanguages.locales.map((locale, i) => {
           return (
             <option key={locale} value={locale}>
-              {description}
+              {supportedLanguages.description[i]}
             </option>
           );
         })}

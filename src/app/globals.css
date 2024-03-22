@@ -1,3 +1,112 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: theme(colors.scrollbar.DEFAULT) transparent;
+}
+
+*::-webkit-scrollbar {
+  @apply w-2;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-scrollbar;
+}
+
+.scrollbar-hidden {
+  scrollbar-color: transparent transparent;
+}
+
+.scrollbar-hidden:hover {
+  scrollbar-color: theme(colors.scrollbar.DEFAULT) transparent;
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb {
+  @apply bg-transparent;
+}
+
+.scrollbar-hidden:hover::-webkit-scrollbar-thumb {
+  @apply bg-scrollbar;
+}
+
+.spinner {
+  --_spinner-gap: 10ch;
+  --_spinner-text-shadow-blur-radius: 0.4em;
+  --_spinner-text-shadow-color: theme(colors.neutral.50);
+  --_spinner-animation-index: 1;
+  --_spinner-animation-index-duration-factor: 1;
+  --_spinner-animation-duration: 3s;
+  --_spinner-animation-size: 0.3rem;
+  --_spinner-animation-gap: 0.1em;
+
+  @apply grid;
+  @apply place-items-center;
+  @apply relative;
+  @apply rounded-full;
+}
+.spinner:not(:has(.spinner__text)) {
+  --_spinner-gap: 0px;
+}
+
+.spinner__text {
+  @apply absolute;
+  @apply px-2;
+  @apply text-center;
+  @apply text-sm;
+  @apply font-black;
+  @apply text-neutral-800;
+
+  grid-row: 1 / -1;
+  grid-column: 1 / -1;
+  text-shadow:
+    0 -1px var(--_spinner-text-shadow-blur-radius) var(--_spinner-text-shadow-color),
+    0 1px var(--_spinner-text-shadow-blur-radius)
+      var(--_spinner-text-shadow-color),
+    1px -1px var(--_spinner-text-shadow-blur-radius) var(--_spinner-text-shadow-color),
+    1px 0 var(--_spinner-text-shadow-blur-radius)
+      var(--_spinner-text-shadow-color),
+    1px 1px var(--_spinner-text-shadow-blur-radius)
+      var(--_spinner-text-shadow-color),
+    -1px -1px var(--_spinner-text-shadow-blur-radius)
+      var(--_spinner-text-shadow-color),
+    -1px 0 var(--_spinner-text-shadow-blur-radius) var(--_spinner-text-shadow-color),
+    -1px 1px var(--_spinner-text-shadow-blur-radius) var(--_spinner-text-shadow-color);
+}
+
+.spinner__animation {
+  @apply border-solid;
+  @apply border-y-slate-500;
+  @apply border-x-transparent;
+  @apply rounded-full;
+
+  grid-row: 1 / -1;
+  grid-column: 1 / -1;
+  border-width: var(--_spinner-animation-size);
+  padding: calc(
+    (
+        var(--_spinner-animation-index) *
+          (var(--_spinner-animation-size) + var(--_spinner-animation-gap))
+      ) + (var(--_spinner-gap) / 2)
+  );
+  animation: spinner var(--_spinner-animation-duration) linear infinite;
+  animation-duration: calc(
+    var(--_spinner-animation-index) *
+      var(--_spinner-animation-index-duration-factor) *
+      var(--_spinner-animation-duration)
+  );
+}
+.spinner__animation:nth-of-type(2n + 1) {
+  animation-direction: reverse;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

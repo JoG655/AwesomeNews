@@ -9,6 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        scrollbar: {
+          DEFAULT: "#404040",
+        },
         focus: {
           DEFAULT: "#cbd5e1",
         },

@@ -1,14 +1,16 @@
-import { Header } from "../../components/header/header";
+import type { ReactNode } from "react";
 
-type LocaleLayoutProps = {
-  children: React.ReactNode;
+import { Header } from "@/components/header/Header";
+
+export type LocaleLayoutProps = {
+  children: ReactNode;
 };
 
 export default function LocaleLayout({ children }: LocaleLayoutProps) {
   return (
     <>
       <Header />
-      {children}
+      <main className="flex flex-grow flex-col">{children}</main>
     </>
   );
 }

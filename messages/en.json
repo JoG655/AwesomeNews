@@ -1,5 +1,8 @@
 {
   "Index": {
     "buttonText": "Learn more"
+  },
+  "NotFound": {
+    "buttonText": "Go back"
   }
 }
