@@ -35,6 +35,8 @@ export function CategorySlider({
 }: CategorySliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const categoriesRef = useRef<HTMLDivElement>(null);
+
   const [isLeftVisible, setIsLeftVisible] = useState(false);
 
   const [isRightVisible, setIsRightVisible] = useState(false);
@@ -54,6 +56,16 @@ export function CategorySlider({
       setIsRightVisible(
         translateOffset + container.clientWidth < container.scrollWidth,
       );
+
+      if (categoriesRef.current == null) return;
+
+      const categoriesRect = categoriesRef.current.getBoundingClientRect();
+
+      if (container.clientWidth > categoriesRect.x + categoriesRect.width) {
+        setTranslateOffset((t) => {
+          return translateRightCalc(t, container.scrollWidth);
+        });
+      }
     });
 
     observer.observe(containerRef.current);
@@ -93,6 +105,7 @@ export function CategorySlider({
     if (containerRef.current == null) return;
 
     const containerRect = containerRef.current.getBoundingClientRect();
+
     const elementRect = e.target.getBoundingClientRect();
 
     if (elementRect.x - NAVIGATION_WIDTH < containerRect.x) {
@@ -143,6 +156,7 @@ export function CategorySlider({
         </div>
       ) : null}
       <div
+        ref={categoriesRef}
         className="flex w-[max-content] transform gap-3 whitespace-nowrap transition-transform"
         style={{ transform: `translateX(-${translateOffset}px)` }}
       >
