@@ -126,7 +126,7 @@ export function CategorySlider({
       )}
       {...rest}
     >
-      {isLeftVisible && (
+      {isLeftVisible ? (
         <div
           className="absolute left-0 z-20 h-5/6 bg-gradient-to-r from-white from-50% to-transparent pl-1"
           style={{ width: `${NAVIGATION_WIDTH}px` }}
@@ -141,7 +141,7 @@ export function CategorySlider({
             <ChevronLeft />
           </Button>
         </div>
-      )}
+      ) : null}
       <div
         className="flex w-[max-content] transform gap-3 whitespace-nowrap transition-transform"
         style={{ transform: `translateX(-${translateOffset}px)` }}
@@ -160,7 +160,7 @@ export function CategorySlider({
           </Fragment>
         ))}
       </div>
-      {isRightVisible && (
+      {isRightVisible ? (
         <div
           className="absolute right-0 z-20 h-5/6 bg-gradient-to-l from-white from-50% to-transparent pr-1"
           style={{ width: `${NAVIGATION_WIDTH}px` }}
@@ -175,7 +175,7 @@ export function CategorySlider({
             <ChevronRight />
           </Button>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

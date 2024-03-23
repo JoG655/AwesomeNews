@@ -22,7 +22,7 @@ export function Spinner({
           style={{ "--_spinner-animation-index": i + 1 } as CSSProperties}
         ></i>
       ))}
-      {text && <span className="spinner__text">{text}</span>}
+      {text ? <span className="spinner__text">{text}</span> : null}
     </div>
   );
 }
