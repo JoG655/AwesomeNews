@@ -13,7 +13,7 @@ export default function Home() {
   const t = useTranslations("Index");
 
   return (
-    <>
+    <main className="flex flex-grow flex-col">
       <Spinner />
       <Spinner text="Loading..." animationCount={3} />
       <Spinner text="Loading..." animationCount={5} />
@@ -71,6 +71,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }

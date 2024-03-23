@@ -47,22 +47,14 @@
   --_spinner-animation-color-even: theme(colors.slate.500);
   --_spinner-animation-color-odd: theme(colors.amber.500);
 
-  @apply grid;
-  @apply place-items-center;
-  @apply relative;
-  @apply rounded-full;
+  @apply relative grid place-items-center rounded-full;
 }
 .spinner:not(:has(.spinner__text)) {
   --_spinner-gap: 0px;
 }
 
 .spinner__text {
-  @apply absolute;
-  @apply px-2;
-  @apply text-center;
-  @apply text-sm;
-  @apply font-black;
-  @apply text-neutral-800;
+  @apply absolute px-2 text-center text-sm font-black text-neutral-800;
 
   grid-row: 1 / -1;
   grid-column: 1 / -1;
@@ -82,10 +74,7 @@
 }
 
 .spinner__animation {
-  @apply border-solid;
-  @apply border-y-[--_spinner-animation-color-even];
-  @apply border-x-transparent;
-  @apply rounded-full;
+  @apply rounded-full border-solid border-x-transparent border-y-[--_spinner-animation-color-even];
 
   grid-row: 1 / -1;
   grid-column: 1 / -1;
@@ -105,6 +94,7 @@
 }
 .spinner__animation:nth-of-type(2n + 1) {
   @apply border-y-[--_spinner-animation-color-odd];
+
   animation-direction: reverse;
 }
 .spinner__animation:nth-of-type(2) {

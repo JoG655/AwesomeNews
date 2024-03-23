@@ -10,7 +10,7 @@ export default function LocaleLayout({ children }: LocaleLayoutProps) {
   return (
     <>
       <Header />
-      <main className="flex flex-grow flex-col">{children}</main>
+      {children}
     </>
   );
 }
