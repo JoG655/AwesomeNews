@@ -3,6 +3,8 @@
 import type { ComponentProps } from "react";
 import { useState } from "react";
 
+import useDebounceValue from "@/hooks/useDebounceValue/useDebounceValue";
+
 import { twMerge } from "tailwind-merge";
 
 import { categories } from "@/data/categories";
@@ -14,6 +16,10 @@ export type HeaderProps = ComponentProps<"header">;
 
 export function Header({ className, ...rest }: HeaderProps) {
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+
+  const [inputTest, setInputTest] = useState("");
+
+  const debouncedInputTest = useDebounceValue(inputTest, 250);
 
   return (
     <header
@@ -39,6 +45,13 @@ export function Header({ className, ...rest }: HeaderProps) {
           />
         </div>
       </section>
+      <input
+        className="outline-dotted"
+        type="text"
+        onChange={(e) => setInputTest(e.target.value)}
+      />
+      <p>{inputTest}</p>
+      <p>{debouncedInputTest}</p>
     </header>
   );
 }

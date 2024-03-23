@@ -1,0 +1,17 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+export default function useDebounceValue<T>(value: T, delay = 0) {
+  const [debounceValue, setDebounceValue] = useState(value);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebounceValue(value);
+    }, delay);
+
+    return () => clearTimeout(timeoutId);
+  }, [value, delay]);
+
+  return debounceValue;
+}
