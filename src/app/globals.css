@@ -37,13 +37,15 @@
 
 .spinner {
   --_spinner-gap: 10ch;
-  --_spinner-text-shadow-blur-radius: 0.4em;
+  --_spinner-text-shadow-blur-radius: 0.4rem;
   --_spinner-text-shadow-color: theme(colors.neutral.50);
   --_spinner-animation-index: 1;
   --_spinner-animation-index-duration-factor: 1;
   --_spinner-animation-duration: 3s;
   --_spinner-animation-size: 0.3rem;
-  --_spinner-animation-gap: 0.1em;
+  --_spinner-animation-gap: 0.2rem;
+  --_spinner-animation-color-even: theme(colors.slate.500);
+  --_spinner-animation-color-odd: theme(colors.amber.500);
 
   @apply grid;
   @apply place-items-center;
@@ -81,13 +83,13 @@
 
 .spinner__animation {
   @apply border-solid;
-  @apply border-y-slate-500;
+  @apply border-y-[--_spinner-animation-color-even];
   @apply border-x-transparent;
   @apply rounded-full;
 
   grid-row: 1 / -1;
   grid-column: 1 / -1;
-  border-width: var(--_spinner-animation-size);
+  border-block-width: var(--_spinner-animation-size);
   padding: calc(
     (
         var(--_spinner-animation-index) *
@@ -102,6 +104,7 @@
   );
 }
 .spinner__animation:nth-of-type(2n + 1) {
+  @apply border-y-[--_spinner-animation-color-odd];
   animation-direction: reverse;
 }
 
