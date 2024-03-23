@@ -15,7 +15,8 @@ export default function Home() {
   return (
     <>
       <Spinner />
-      <Spinner text="Loading..." />
+      <Spinner text="Loading..." animationCount={3} />
+      <Spinner text="Loading..." animationCount={5} />
 
       <div className="grid flex-grow grid-cols-[auto,minmax(0,1fr)] overflow-auto">
         <div className="text-center">

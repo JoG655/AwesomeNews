@@ -107,6 +107,21 @@
   @apply border-y-[--_spinner-animation-color-odd];
   animation-direction: reverse;
 }
+.spinner__animation:nth-of-type(2) {
+  --_spinner-animation-index: 2;
+}
+.spinner__animation:nth-of-type(3) {
+  --_spinner-animation-index: 3;
+}
+.spinner__animation:nth-of-type(4) {
+  --_spinner-animation-index: 4;
+}
+.spinner__animation:nth-of-type(5) {
+  --_spinner-animation-index: 5;
+}
+.spinner__animation:nth-of-type(6) {
+  --_spinner-animation-index: 6;
+}
 
 @keyframes spinner {
   to {

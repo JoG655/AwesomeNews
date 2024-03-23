@@ -1,10 +1,10 @@
-import type { CSSProperties, ComponentProps } from "react";
+import type { ComponentProps } from "react";
 
 import { twMerge } from "tailwind-merge";
 
 export type SpinnerProps = ComponentProps<"div"> & {
   text?: string;
-  animationCount?: number;
+  animationCount?: 1 | 2 | 3 | 4 | 5 | 6;
 };
 
 export function Spinner({
@@ -16,11 +16,7 @@ export function Spinner({
   return (
     <div className={twMerge("spinner", className)} {...rest}>
       {[...Array(animationCount)].map((_, i) => (
-        <i
-          key={i}
-          className="spinner__animation"
-          style={{ "--_spinner-animation-index": i + 1 } as CSSProperties}
-        ></i>
+        <i key={i} className="spinner__animation"></i>
       ))}
       {text ? <span className="spinner__text">{text}</span> : null}
     </div>
