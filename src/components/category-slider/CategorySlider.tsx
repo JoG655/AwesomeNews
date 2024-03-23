@@ -4,7 +4,7 @@ import type {
   ComponentProps,
   Dispatch,
   FocusEvent,
-  ReactNode,
+  ReactElement,
   SetStateAction,
 } from "react";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -16,7 +16,7 @@ import { Button } from "@/components/button/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export type CategorySliderProps = ComponentProps<"div"> & {
-  separator?: ReactNode;
+  separator?: ReactElement;
   categories: string[];
   selectedCategory: string;
   onSelectCategory: Dispatch<SetStateAction<string>>;
@@ -156,7 +156,7 @@ export function CategorySlider({
             >
               {c}
             </Button>
-            {i < categories.length - 1 && separator}
+            {i < categories.length - 1 ? separator : null}
           </Fragment>
         ))}
       </div>
