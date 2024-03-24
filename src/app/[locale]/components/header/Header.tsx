@@ -1,6 +1,6 @@
 "use client";
 
-import type { ComponentProps } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { useState } from "react";
 
 import useDebounceValue from "@/hooks/useDebounceValue/useDebounceValue";
@@ -9,10 +9,10 @@ import { twMerge } from "tailwind-merge";
 
 import { categories } from "@/data/categories";
 
-import { LocalSwitch } from "@/components/locale-switch/LocaleSwitch";
-import { CategorySlider } from "@/components/category-slider/CategorySlider";
+import { LocalSwitch } from "./locale-switch/LocaleSwitch";
+import { CategorySlider } from "./category-slider/CategorySlider";
 
-export type HeaderProps = ComponentProps<"header">;
+type HeaderProps = ComponentPropsWithoutRef<"header">;
 
 export function Header({ className, ...rest }: HeaderProps) {
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);

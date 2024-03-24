@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChangeEvent, ComponentProps } from "react";
+import type { ChangeEvent, ComponentPropsWithoutRef } from "react";
 import { useTransition } from "react";
 
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ import { twMerge } from "tailwind-merge";
 
 import { buttonCVA } from "@/components/button/buttonCVA";
 
-export type LocaleSwitchProps = ComponentProps<"select">;
+type LocaleSwitchProps = ComponentPropsWithoutRef<"select">;
 
 export function LocalSwitch({ className, ...rest }: LocaleSwitchProps) {
   const [isPending, startTransition] = useTransition();

@@ -1,13 +1,21 @@
 "use client";
 
 import type {
-  ComponentProps,
+  ComponentPropsWithoutRef,
   Dispatch,
   FocusEvent,
   ReactElement,
+  RefObject,
   SetStateAction,
 } from "react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import {
+  Fragment,
+  createRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { twMerge } from "tailwind-merge";
 
@@ -15,7 +23,7 @@ import { Button } from "@/components/button/Button";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export type CategorySliderProps = ComponentProps<"div"> & {
+type CategorySliderProps = ComponentPropsWithoutRef<"div"> & {
   separator?: ReactElement;
   categories: string[];
   selectedCategory: string;
@@ -37,11 +45,40 @@ export function CategorySlider({
 
   const categoriesRef = useRef<HTMLDivElement>(null);
 
+  const categoriesButtonsRef = useRef<RefObject<HTMLButtonElement>[]>([]);
+
+  categoriesButtonsRef.current = categories.map(
+    (_, i) => categoriesButtonsRef.current[i] ?? createRef<HTMLButtonElement>(),
+  );
+
   const [isLeftVisible, setIsLeftVisible] = useState(false);
 
   const [isRightVisible, setIsRightVisible] = useState(false);
 
   const [translateOffset, setTranslateOffset] = useState(0);
+
+  const translateButton = useCallback((target: HTMLButtonElement) => {
+    if (containerRef.current == null) return;
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+
+    const elementRect = target.getBoundingClientRect();
+
+    if (elementRect.x - NAVIGATION_WIDTH < containerRect.x) {
+      translateLeft(containerRect.x - elementRect.x + NAVIGATION_WIDTH);
+    } else if (
+      elementRect.x + elementRect.width + NAVIGATION_WIDTH >
+      containerRect.x + containerRect.width
+    ) {
+      translateRight(
+        elementRect.x +
+          elementRect.width +
+          NAVIGATION_WIDTH -
+          containerRect.x -
+          containerRect.width,
+      );
+    }
+  }, []);
 
   useEffect(() => {
     if (containerRef.current == null) return;
@@ -62,9 +99,7 @@ export function CategorySlider({
       const categoriesRect = categoriesRef.current.getBoundingClientRect();
 
       if (container.clientWidth > categoriesRect.x + categoriesRect.width) {
-        setTranslateOffset((t) => {
-          return translateRightCalc(t, container.scrollWidth);
-        });
+        translateRight(container.scrollWidth);
       }
     });
 
@@ -75,59 +110,52 @@ export function CategorySlider({
     };
   }, [categories, translateOffset]);
 
-  function translateLeftCalc(
-    currentTranslateOffset: number,
-    delta: number,
-  ): number {
-    const newTranslateOffset = currentTranslateOffset - delta;
+  useEffect(() => {
+    if (categoriesButtonsRef.current.length === 0) return;
 
-    return newTranslateOffset <= 0 ? 0 : newTranslateOffset;
+    const selectedCategoryIndex = categories.indexOf(selectedCategory);
+
+    const selectedCategoryTarget =
+      categoriesButtonsRef.current[selectedCategoryIndex].current;
+
+    if (selectedCategoryTarget == null) return;
+
+    translateButton(selectedCategoryTarget);
+  }, [categories, selectedCategory, translateButton]);
+
+  function translateLeft(delta: number) {
+    setTranslateOffset((t) => {
+      const newTranslateOffset = t - delta;
+
+      return newTranslateOffset <= 0 ? 0 : newTranslateOffset;
+    });
   }
 
-  function translateRightCalc(
-    currentTranslateOffset: number,
-    delta: number,
-  ): number {
-    if (!containerRef.current) return currentTranslateOffset;
+  function translateRight(delta: number) {
+    setTranslateOffset((t) => {
+      if (!containerRef.current) return t;
 
-    const width = containerRef.current.clientWidth;
+      const width = containerRef.current.clientWidth;
 
-    const edge = containerRef.current.scrollWidth;
+      const edge = containerRef.current.scrollWidth;
 
-    const newTranslate = currentTranslateOffset + delta;
+      const newTranslate = t + delta;
 
-    return newTranslate + width >= edge ? edge - width : newTranslate;
+      return newTranslate + width >= edge ? edge - width : newTranslate;
+    });
   }
 
-  function handleButtonFocus(e: FocusEvent) {
+  function handleButtonFocus(e: FocusEvent<HTMLButtonElement>) {
     if (e.target === e.relatedTarget) return;
 
-    if (containerRef.current == null) return;
-
-    const containerRect = containerRef.current.getBoundingClientRect();
-
-    const elementRect = e.target.getBoundingClientRect();
-
-    if (elementRect.x - NAVIGATION_WIDTH < containerRect.x) {
-      setTranslateOffset((t) => {
-        return translateLeftCalc(t, elementRect.width + TRANSLATE_DELTA);
-      });
-    } else if (
-      elementRect.x + elementRect.width + NAVIGATION_WIDTH >
-      containerRect.x + containerRect.width
-    ) {
-      setTranslateOffset((t) => {
-        return translateRightCalc(t, elementRect.width + TRANSLATE_DELTA);
-      });
-    }
+    translateButton(e.target);
   }
 
-  function handleVariantMouseDown(variant: "Left" | "Right") {
-    setTranslateOffset((t) => {
-      return (
-        variant === "Left" ? translateLeftCalc : translateRightCalc
-      ).apply(null, [t, TRANSLATE_DELTA]);
-    });
+  function handleNavigationMouseDown(variant: "Left" | "Right") {
+    const translateDirection =
+      variant === "Left" ? translateLeft : translateRight;
+
+    translateDirection(TRANSLATE_DELTA);
   }
 
   return (
@@ -149,7 +177,7 @@ export function CategorySlider({
             btnType="icon"
             size="sm"
             className="aspect-square h-full w-auto py-1.5"
-            onMouseDown={() => handleVariantMouseDown("Left")}
+            onMouseDown={() => handleNavigationMouseDown("Left")}
           >
             <ChevronLeft />
           </Button>
@@ -163,6 +191,7 @@ export function CategorySlider({
         {categories.map((c, i) => (
           <Fragment key={c}>
             <Button
+              ref={categoriesButtonsRef.current[i]}
               variant={selectedCategory === c ? "primary" : "ghost"}
               className="whitespace-nowrap rounded-lg px-3 py-1"
               onMouseDown={() => onSelectCategory(c)}
@@ -184,7 +213,7 @@ export function CategorySlider({
             btnType="icon"
             size="sm"
             className="ml-auto aspect-square h-full w-auto py-1.5"
-            onMouseDown={() => handleVariantMouseDown("Right")}
+            onMouseDown={() => handleNavigationMouseDown("Right")}
           >
             <ChevronRight />
           </Button>

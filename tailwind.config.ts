@@ -30,6 +30,15 @@ const config: Config = {
           950: "#0a0a0a",
         },
       },
+      animation: {
+        fadeIn: "fadeIn 250ms ease-out",
+      },
+      keyframes: {
+        fadeIn: {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+      },
     },
   },
   plugins: [],

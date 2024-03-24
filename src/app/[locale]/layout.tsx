@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 
-import { Header } from "@/components/header/Header";
+import { Header } from "@/app/[locale]/components/header/Header";
 
-export type LocaleLayoutProps = {
+type LocaleLayoutProps = {
   children: ReactNode;
 };
 

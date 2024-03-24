@@ -2,12 +2,12 @@ import { useTranslations } from "next-intl";
 
 import { Plus } from "lucide-react";
 
-import type { ButtonProps } from "@/components/button/Button";
+import type { ButtonArgs } from "@/components/button/Button";
 import { Button } from "@/components/button/Button";
 import { Spinner } from "@/components/spinner/Spinner";
 
-const sizes: ButtonProps["size"][] = ["sm", "md", "lg", "xl", "xl"];
-const variants: ButtonProps["variant"][] = ["primary", "outline", "ghost"];
+const sizes: ButtonArgs["size"][] = ["sm", "md", "lg", "xl", "xl"];
+const variants: ButtonArgs["variant"][] = ["primary", "outline", "ghost"];
 
 export default function Home() {
   const t = useTranslations("Index");
@@ -15,8 +15,10 @@ export default function Home() {
   return (
     <main className="flex flex-grow flex-col">
       <Spinner />
-      <Spinner text="Loading..." animationCount={3} />
-      <Spinner text="Loading..." animationCount={5} />
+      <Spinner animationCount={3}>
+        <Plus />
+      </Spinner>
+      <Spinner animationCount={5}>Loading...</Spinner>
 
       <div className="grid flex-grow grid-cols-[auto,minmax(0,1fr)] overflow-auto">
         <div className="text-center">
