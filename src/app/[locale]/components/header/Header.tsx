@@ -7,9 +7,11 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../../../../tailwind.config";
 
 import type { CSSProperties } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { categories } from "@/data/categories";
+
+import { trapFocus } from "@/utils/focus/trapFocus";
 
 import { usePathname } from "next/navigation";
 
@@ -24,6 +26,8 @@ import Hamburger from "hamburger-react";
 
 import { LocalSwitch } from "./locale-switch/LocaleSwitch";
 import { CategorySlider } from "./category-slider/CategorySlider";
+import { Button } from "@/components/button/Button";
+import { disableFocus } from "@/utils/focus/disableFocus";
 
 type LinkPartial = { href: LinkProps["href"]; text: string };
 
@@ -33,27 +37,96 @@ const LOGO_HEIGHT = 100;
 const MD_BREAKPOINT = parseInt(resolveConfig(tailwindConfig).theme.screens.md);
 
 export function Header({ links }: HeaderProps) {
+  const widthRef = useRef(0);
+
+  const navRef = useRef<HTMLDivElement>(null);
+
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > MD_BREAKPOINT) setIsOpen(false);
+      const previousWidth = widthRef.current;
+
+      widthRef.current = window.innerWidth;
+
+      if (previousWidth < MD_BREAKPOINT && widthRef.current >= MD_BREAKPOINT)
+        setIsOpen(false);
+
+      const menuRefElement = menuRef.current;
+
+      if (!menuRefElement) return;
+
+      if (previousWidth < MD_BREAKPOINT && widthRef.current >= MD_BREAKPOINT) {
+        disableFocus.disable(menuRefElement);
+      } else if (
+        previousWidth >= MD_BREAKPOINT &&
+        widthRef.current < MD_BREAKPOINT
+      ) {
+        disableFocus.enable(menuRefElement);
+      }
     };
 
     window.addEventListener("resize", handleResize);
+
+    const NavRefElement = navRef.current;
+
+    if (!NavRefElement) return;
+
+    const hamburgers =
+      NavRefElement.querySelectorAll<HTMLElement>(".hamburger-react");
+
+    hamburgers.forEach((hamburger) => {
+      hamburger.removeAttribute("tabindex");
+    });
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (!isOpen) return;
+
+      const navRefElement = navRef.current;
+
+      if (!navRefElement) return;
+
+      trapFocus<HTMLDivElement>(navRefElement, e);
+    };
+
+    document.addEventListener("keydown", handleKeydown);
+
+    const menuRefElement = menuRef.current;
+
+    if (!menuRefElement) return;
+
+    const disableFocusToggle =
+      isOpen || window.innerWidth > MD_BREAKPOINT
+        ? disableFocus.disable
+        : disableFocus.enable;
+
+    disableFocusToggle(menuRefElement);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeydown);
+
+      disableFocus.disable(menuRefElement);
+    };
+  }, [isOpen]);
+
   const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 bg-white text-primary-900">
-      <nav className="relative mb-2 flex w-full flex-wrap items-center justify-between gap-4 border-b-4 border-solid border-b-primary-400 text-lg">
+      <nav
+        ref={navRef}
+        className="relative flex w-full flex-wrap items-center justify-between gap-4 text-lg"
+      >
         <Link
           href="/"
           className={twMerge(
@@ -65,12 +138,17 @@ export function Header({ links }: HeaderProps) {
         >
           <Image src={infozona} alt="logo" height={LOGO_HEIGHT} />
         </Link>
-        <div className="md:hidden">
-          <Hamburger toggled={isOpen} toggle={setIsOpen} />
-        </div>
+        <Button
+          variant={"ghost"}
+          className="mr-1 min-h-fit p-0 md:hidden"
+          onClick={() => setIsOpen((i) => !i)}
+        >
+          <Hamburger toggled={isOpen} />
+        </Button>
         <div
+          ref={menuRef}
           className={twMerge(
-            "absolute top-[104px] z-50 grid w-full grid-rows-[0fr] transition-[grid-template-rows] duration-500 md:static md:flex md:w-auto md:items-center",
+            "absolute top-[--logo-height] z-50 grid w-full grid-rows-[0fr] transition-[grid-template-rows] duration-500 md:static md:flex md:w-auto md:items-center",
             isOpen
               ? "h-[calc(100dvh-var(--logo-height))] grid-rows-[1fr]"
               : null,
@@ -89,7 +167,7 @@ export function Header({ links }: HeaderProps) {
                 {links.home.text}
               </Link>
             </li>
-            <li>
+            <li className="p-1">
               <Link
                 className={buttonCVA({
                   variant:
@@ -101,14 +179,14 @@ export function Header({ links }: HeaderProps) {
                 {links.calendar.text}
               </Link>
             </li>
-            <li>
+            <li className="p-1">
               <LocalSwitch />
             </li>
           </ul>
         </div>
       </nav>
       <section>
-        <div className="border-b-2 border-solid border-b-primary-400 border-t-primary-800 p-1">
+        <div className="mt-2 border-b-2 border-t-4 border-solid border-b-primary-400 border-t-primary-800 p-1">
           <CategorySlider
             categories={categories}
             selectedCategory={selectedCategory}
