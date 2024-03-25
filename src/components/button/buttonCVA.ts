@@ -12,6 +12,7 @@ export const buttonCVA = cva(
     "transition",
     "focus:outline-none",
     "focus-visible:ring-4",
+    "hover:cursor-pointer",
     "disabled:cursor-not-allowed",
   ],
   {

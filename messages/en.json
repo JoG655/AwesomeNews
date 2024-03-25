@@ -2,7 +2,8 @@
   "Index": {
     "buttonText": "Learn more"
   },
-  "NotFound": {
-    "buttonText": "Go back"
+  "Header": {
+    "homeText": "Home",
+    "calendarText": "Calendar"
   }
 }

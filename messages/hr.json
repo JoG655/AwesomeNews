@@ -2,7 +2,8 @@
   "Index": {
     "buttonText": "Nauči više"
   },
-  "NotFound": {
-    "buttonText": "Vratimo se natrag"
+  "Header": {
+    "homeText": "Početna",
+    "calendarText": "Kalendar"
   }
 }

@@ -3,7 +3,7 @@
 import type { ChangeEvent, ComponentPropsWithoutRef } from "react";
 import { useTransition } from "react";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { useLocale } from "next-intl";
 
@@ -23,9 +23,21 @@ export function LocalSwitch({ className, ...rest }: LocaleSwitchProps) {
 
   const localActive = useLocale() as Locale;
 
+  const pathname = usePathname();
+
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     startTransition(() => {
-      router.replace(`/${e.target.value}`);
+      const pathnameSegments = pathname.split("/");
+
+      if (pathnameSegments.length === 2) {
+        router.replace(`/${e.target.value}`);
+
+        return;
+      }
+
+      pathnameSegments.splice(1, 1, e.target.value);
+
+      router.replace(pathnameSegments.join("/"));
     });
   };
 

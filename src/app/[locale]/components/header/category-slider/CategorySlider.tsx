@@ -98,7 +98,10 @@ export function CategorySlider({
 
       const categoriesRect = categoriesRef.current.getBoundingClientRect();
 
-      if (container.clientWidth > categoriesRect.x + categoriesRect.width) {
+      if (
+        container.clientWidth >
+        Math.ceil(categoriesRect.x + categoriesRect.width)
+      ) {
         translateRight(container.scrollWidth);
       }
     });
@@ -188,16 +191,16 @@ export function CategorySlider({
         className="flex w-[max-content] transform gap-3 whitespace-nowrap transition-transform"
         style={{ transform: `translateX(-${translateOffset}px)` }}
       >
-        {categories.map((c, i) => (
-          <Fragment key={c}>
+        {categories.map((category, i) => (
+          <Fragment key={category}>
             <Button
               ref={categoriesButtonsRef.current[i]}
-              variant={selectedCategory === c ? "primary" : "ghost"}
+              variant={selectedCategory === category ? "primary" : "ghost"}
               className="whitespace-nowrap rounded-lg px-3 py-1"
-              onMouseDown={() => onSelectCategory(c)}
+              onMouseDown={() => onSelectCategory(category)}
               onFocus={(e) => handleButtonFocus(e)}
             >
-              {c}
+              {category}
             </Button>
             {i < categories.length - 1 ? separator : null}
           </Fragment>
