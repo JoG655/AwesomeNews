@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChangeEvent, ComponentPropsWithoutRef } from "react";
+import type { ChangeEvent } from "react";
 import { useTransition } from "react";
 
 import { usePathname, useRouter } from "next/navigation";
@@ -10,13 +10,9 @@ import { useLocale } from "next-intl";
 import type { Locale } from "@/supportedLanguages";
 import { supportedLanguages } from "@/supportedLanguages";
 
-import { twMerge } from "tailwind-merge";
-
 import { buttonCVA } from "@/components/button/buttonCVA";
 
-type LocaleSwitchProps = ComponentPropsWithoutRef<"select">;
-
-export function LocalSwitch({ className, ...rest }: LocaleSwitchProps) {
+export function LocalSwitch() {
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
@@ -48,14 +44,10 @@ export function LocalSwitch({ className, ...rest }: LocaleSwitchProps) {
       </label>
       <select
         id="ChangeLanguage"
-        className={twMerge(
-          buttonCVA({ variant: "outline", size: "md" }),
-          className,
-        )}
+        className={buttonCVA({ variant: "outline", size: "md" })}
         onChange={handleChange}
         defaultValue={localActive}
         disabled={isPending}
-        {...rest}
       >
         {supportedLanguages.locales.map((locale, i) => {
           return (

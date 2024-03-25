@@ -1,7 +1,6 @@
 "use client";
 
 import type {
-  ComponentPropsWithoutRef,
   Dispatch,
   FocusEvent,
   ReactElement,
@@ -23,7 +22,7 @@ import { Button } from "@/components/button/Button";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-type CategorySliderProps = ComponentPropsWithoutRef<"div"> & {
+type CategorySliderProps = {
   separator?: ReactElement;
   categories: string[];
   selectedCategory: string;
@@ -38,8 +37,6 @@ export function CategorySlider({
   categories,
   selectedCategory,
   onSelectCategory,
-  className,
-  ...rest
 }: CategorySliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -164,11 +161,7 @@ export function CategorySlider({
   return (
     <div
       ref={containerRef}
-      className={twMerge(
-        "relative flex items-center overflow-x-hidden px-1 py-2",
-        className,
-      )}
-      {...rest}
+      className="relative flex items-center overflow-x-hidden px-1 py-2"
     >
       {isLeftVisible ? (
         <div

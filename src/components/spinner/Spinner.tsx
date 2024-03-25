@@ -17,7 +17,11 @@ export type SpinnerArgs = SpinnerPartial & ComponentPropsWithRef<"div">;
 export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
   function Spinner({ animationCount = 3, className, children, ...rest }, ref) {
     return (
-      <div ref={ref} className={twMerge("spinner", className)} {...rest}>
+      <div
+        ref={ref}
+        className={twMerge("spinner", "animate-fadeIn", className)}
+        {...rest}
+      >
         {[...Array(animationCount)].map((_, i) => (
           <i key={i} className="spinner__animation"></i>
         ))}

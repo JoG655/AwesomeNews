@@ -1,23 +1,20 @@
 "use client";
 
-import type { CSSProperties, ComponentPropsWithoutRef } from "react";
-import { useEffect, useState } from "react";
+import type { LinkProps } from "next/link";
+import Link from "next/link";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../../../../tailwind.config";
 
+import type { CSSProperties } from "react";
+import { useEffect, useState } from "react";
+
 import { categories } from "@/data/categories";
-
-import { useLocale } from "next-intl";
-
-import { Locale } from "@/supportedLanguages";
 
 import { usePathname } from "next/navigation";
 
 import { twMerge } from "tailwind-merge";
 import { buttonCVA } from "@/components/button/buttonCVA";
-
-import Link from "next/link";
 
 import Image from "next/image";
 
@@ -28,16 +25,14 @@ import Hamburger from "hamburger-react";
 import { LocalSwitch } from "./locale-switch/LocaleSwitch";
 import { CategorySlider } from "./category-slider/CategorySlider";
 
-type HeaderPartial = { items: { homeText: string; calendarText: string } };
+type LinkPartial = { href: LinkProps["href"]; text: string };
 
-type HeaderProps = HeaderPartial & ComponentPropsWithoutRef<"header">;
+type HeaderProps = { links: { home: LinkPartial; calendar: LinkPartial } };
 
 const LOGO_HEIGHT = 100;
 const MD_BREAKPOINT = parseInt(resolveConfig(tailwindConfig).theme.screens.md);
 
-export function Header({ items, className, ...rest }: HeaderProps) {
-  const localActive = useLocale() as Locale;
-
+export function Header({ links }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
@@ -56,25 +51,8 @@ export function Header({ items, className, ...rest }: HeaderProps) {
 
   const pathname = usePathname();
 
-  const links = {
-    home: {
-      href: `/${localActive}`,
-      text: items.homeText,
-    },
-    calendar: {
-      href: `/${localActive}/calendar`,
-      text: items.calendarText,
-    },
-  };
-
   return (
-    <header
-      className={twMerge(
-        "sticky top-0 z-50 bg-white text-primary-900",
-        className,
-      )}
-      {...rest}
-    >
+    <header className="sticky top-0 z-50 bg-white text-primary-900">
       <nav className="relative mb-2 flex w-full flex-wrap items-center justify-between gap-4 border-b-4 border-solid border-b-primary-400 text-lg">
         <Link
           href="/"
@@ -103,7 +81,7 @@ export function Header({ items, className, ...rest }: HeaderProps) {
             <li className="p-1">
               <Link
                 className={buttonCVA({
-                  variant: pathname === links.home.href ? "primary" : "outline",
+                  variant: links.home.href === pathname ? "primary" : "outline",
                   size: "md",
                 })}
                 href={links.home.href}
@@ -115,7 +93,7 @@ export function Header({ items, className, ...rest }: HeaderProps) {
               <Link
                 className={buttonCVA({
                   variant:
-                    pathname === links.calendar.href ? "primary" : "outline",
+                    links.calendar.href === pathname ? "primary" : "outline",
                   size: "md",
                 })}
                 href={links.calendar.href}
