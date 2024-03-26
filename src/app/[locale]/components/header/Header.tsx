@@ -11,6 +11,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { categories } from "@/data/categories";
 
+import { usePrevious } from "@/hooks/usePrevious/usePrevious";
+
 import { trapFocus } from "@/utils/focus/trapFocus";
 
 import { usePathname } from "next/navigation";
@@ -37,11 +39,13 @@ const LOGO_HEIGHT = 100;
 const MD_BREAKPOINT = parseInt(resolveConfig(tailwindConfig).theme.screens.md);
 
 export function Header({ links }: HeaderProps) {
-  const widthRef = useRef(0);
-
   const navRef = useRef<HTMLDivElement>(null);
 
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const [width, setWidth] = useState(0);
+
+  const previousWidth = usePrevious<number>(width);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -49,25 +53,7 @@ export function Header({ links }: HeaderProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      const previousWidth = widthRef.current;
-
-      widthRef.current = window.innerWidth;
-
-      if (previousWidth < MD_BREAKPOINT && widthRef.current >= MD_BREAKPOINT)
-        setIsOpen(false);
-
-      const menuRefElement = menuRef.current;
-
-      if (!menuRefElement) return;
-
-      if (previousWidth < MD_BREAKPOINT && widthRef.current >= MD_BREAKPOINT) {
-        disableFocus.disable(menuRefElement);
-      } else if (
-        previousWidth >= MD_BREAKPOINT &&
-        widthRef.current < MD_BREAKPOINT
-      ) {
-        disableFocus.enable(menuRefElement);
-      }
+      setWidth(window.innerWidth);
     };
 
     window.addEventListener("resize", handleResize);
@@ -87,6 +73,23 @@ export function Header({ links }: HeaderProps) {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (previousWidth == null) return;
+
+    if (previousWidth < MD_BREAKPOINT && width >= MD_BREAKPOINT)
+      setIsOpen(false);
+
+    const menuRefElement = menuRef.current;
+
+    if (!menuRefElement) return;
+
+    if (previousWidth < MD_BREAKPOINT && width >= MD_BREAKPOINT) {
+      disableFocus.disable(menuRefElement);
+    } else if (previousWidth >= MD_BREAKPOINT && width < MD_BREAKPOINT) {
+      disableFocus.enable(menuRefElement);
+    }
+  }, [previousWidth, width]);
 
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {

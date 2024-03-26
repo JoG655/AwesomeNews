@@ -1,13 +1,19 @@
 import type { RefObject } from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 
 export function useInView(refs: RefObject<HTMLElement>[]) {
   const [elements, setElements] = useState<{
     [key: string]: { isInView: boolean };
   }>({});
-  const detachedRef = useRef<RefObject<HTMLElement>[]>([]);
+  /* const detachedRefs = useRef<RefObject<HTMLElement>[]>([]);
 
-  detachedRef.current = [...refs];
+  detachedRefs.current = [...refs]; */
+
+  const detachedRefs = useRef(refs);
+
+  useLayoutEffect(() => {
+    detachedRefs.current = refs;
+  }, [refs]);
 
   useEffect(() => {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -38,9 +44,9 @@ export function useInView(refs: RefObject<HTMLElement>[]) {
 
     const observer = new IntersectionObserver(observerCallback);
 
-    detachedRef.current.forEach((ref) => {
-      if (ref.current) {
-        observer.observe(ref.current);
+    detachedRefs.current.forEach(({ current }) => {
+      if (current) {
+        observer.observe(current);
       }
     });
 
