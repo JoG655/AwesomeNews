@@ -1,7 +1,7 @@
 import { getRequestConfig } from "next-intl/server";
 
-import type { Locale } from "@/supportedLanguages";
-import { supportedLanguages } from "@/supportedLanguages";
+import type { Locale } from "@/middleware";
+import { supportedLanguages } from "@/middleware";
 
 import { notFound } from "next/navigation";
 

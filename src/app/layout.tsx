@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 
 import type { ReactNode } from "react";
 
-import type { Locale } from "@/supportedLanguages";
+import type { Locale } from "@/middleware";
 
 const inter = Inter({ subsets: ["latin"] });
 

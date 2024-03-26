@@ -7,8 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { useLocale } from "next-intl";
 
-import type { Locale } from "@/supportedLanguages";
-import { supportedLanguages } from "@/supportedLanguages";
+import type { Locale } from "@/middleware";
+import { supportedLanguages } from "@/middleware";
 
 import { buttonCVA } from "@/components/button/buttonCVA";
 
