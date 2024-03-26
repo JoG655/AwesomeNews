@@ -11,7 +11,7 @@ export function useInView(refs: RefObject<HTMLElement>[]) {
 
   useEffect(() => {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry, i) => {
+      entries.forEach((entry) => {
         const tag = entry.target.getAttribute("data-use-in-view-tag");
 
         if (!tag) return;

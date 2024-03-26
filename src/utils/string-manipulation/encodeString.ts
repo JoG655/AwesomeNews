@@ -1,3 +1,5 @@
-export function encodeString(value: string) {
-  return encodeURIComponent(value);
+import queryString from "query-string";
+
+export function encodeString(keyValue: Record<string, any>) {
+  return queryString.stringify(keyValue);
 }
