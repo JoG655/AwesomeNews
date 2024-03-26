@@ -14,7 +14,7 @@ export default function LocaleLayout({ children }: LocaleLayoutProps) {
   const locale = useLocale();
 
   return (
-    <>
+    <main className="flex flex-grow flex-col">
       <Header
         links={{
           home: {
@@ -28,6 +28,6 @@ export default function LocaleLayout({ children }: LocaleLayoutProps) {
         }}
       />
       {children}
-    </>
+    </main>
   );
 }
