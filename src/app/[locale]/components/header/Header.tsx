@@ -45,7 +45,7 @@ export function Header({ links }: HeaderProps) {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [selectedCategory, setSelectedCategory] = useState(categories[8]);
 
   useEffect(() => {
     const handleResize = () => {

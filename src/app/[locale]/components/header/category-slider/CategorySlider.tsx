@@ -16,7 +16,7 @@ import {
   useState,
 } from "react";
 
-import { twMerge } from "tailwind-merge";
+import { useInView } from "@/hooks/useInView/useInView";
 
 import { Button } from "@/components/button/Button";
 
@@ -39,8 +39,6 @@ export function CategorySlider({
   onSelectCategory,
 }: CategorySliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const categoriesRef = useRef<HTMLDivElement>(null);
 
   const categoriesButtonsRef = useRef<RefObject<HTMLButtonElement>[]>([]);
 
@@ -99,12 +97,7 @@ export function CategorySlider({
 
       if (!containerRefElement) return;
 
-      const categoriesRect = containerRefElement.getBoundingClientRect();
-
-      if (
-        container.clientWidth >
-        Math.ceil(categoriesRect.x + categoriesRect.width)
-      ) {
+      if (translateOffset + container.clientWidth > container.scrollWidth) {
         translateRight(container.scrollWidth);
       }
     });
@@ -131,6 +124,8 @@ export function CategorySlider({
     translateButton(selectedCategoryTarget);
   }, [categories, selectedCategory, translateButton]);
 
+  const observedElements = useInView([...categoriesButtonsRef.current]);
+
   function translateLeft(delta: number) {
     setTranslateOffset((t) => {
       const newTranslateOffset = t - delta;
@@ -156,9 +151,11 @@ export function CategorySlider({
   }
 
   function handleButtonFocus(e: FocusEvent<HTMLButtonElement>) {
-    if (e.target === e.relatedTarget) return;
+    const target = e.target;
 
-    translateButton(e.target);
+    if (target === e.relatedTarget) return;
+
+    translateButton(target);
   }
 
   function handleNavigationClick(variant: "Left" | "Right") {
@@ -190,8 +187,7 @@ export function CategorySlider({
         </div>
       ) : null}
       <div
-        ref={categoriesRef}
-        className="flex w-[max-content] transform gap-3 whitespace-nowrap transition-transform"
+        className="flex w-[max-content] gap-3 whitespace-nowrap transition-transform"
         style={{ transform: `translateX(-${translateOffset}px)` }}
       >
         {categories.map((category, i) => (
@@ -202,6 +198,8 @@ export function CategorySlider({
               className="whitespace-nowrap rounded-lg px-3 py-1"
               onClick={() => onSelectCategory(category)}
               onFocus={(e) => handleButtonFocus(e)}
+              data-use-in-view-tag={category}
+              tabIndex={!observedElements[category]?.isInView ? -1 : undefined}
             >
               {category}
             </Button>

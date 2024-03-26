@@ -1,6 +1,6 @@
 import { addAttribute } from "@/utils/attribute-manipulation/addAttribute";
 import { removeAttribute } from "@/utils/attribute-manipulation/removeAttribute";
-import { getRandomID } from "../attribute-manipulation/getRandomId";
+import { getRandomID } from "@/utils/attribute-manipulation/getRandomID";
 
 function handleDisableFocus(
   element: HTMLElement,
