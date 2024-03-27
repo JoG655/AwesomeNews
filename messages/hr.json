@@ -15,5 +15,17 @@
   "Bonus": {
     "spinnerText": "Učitavam...",
     "buttonText": "Nauči više"
+  },
+  "Article": {
+    "readingTimeText": "Vrijeme čitanja"
+  },
+  "Category": {
+    "business": "Biznis",
+    "entertainment": "Zabava",
+    "general": "Općenito",
+    "health": "Zdravlje",
+    "science": "Znanost",
+    "sports": "Sport",
+    "technology": "Tehnologija"
   }
 }

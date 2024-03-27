@@ -15,5 +15,17 @@
   "Bonus": {
     "spinnerText": "Učitavam...",
     "buttonText": "Learn more"
+  },
+  "Article": {
+    "readingTimeText": "Reading Time"
+  },
+  "Category": {
+    "business": "Business",
+    "entertainment": "Entertainment",
+    "general": "General",
+    "health": "Health",
+    "science": "Science",
+    "sports": "Sports",
+    "technology": "Technology"
   }
 }

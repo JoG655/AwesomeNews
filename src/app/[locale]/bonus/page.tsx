@@ -15,7 +15,7 @@ const buttonVariants: ButtonArgs["variant"][] = ["primary", "outline", "ghost"];
 const buttonSizes: ButtonArgs["size"][] = ["sm", "md", "lg", "xl", "xl"];
 
 export default function BonusPage() {
-  const t = useTranslations("Bonus");
+  const tBonus = useTranslations("Bonus");
 
   return (
     <main className="flex flex-grow flex-col">
@@ -39,7 +39,7 @@ export default function BonusPage() {
                             animationCount={spinnerAnimationCount}
                             key={spinnerAnimationCount}
                           >
-                            {t("spinnerText")}
+                            {tBonus("spinnerText")}
                           </Spinner>
                         ))}
                       </div>
@@ -64,7 +64,7 @@ export default function BonusPage() {
                             disabled={index === buttonSizes.length - 1}
                             key={buttonSize}
                           >
-                            <span>{t("buttonText")}</span>
+                            <span>{tBonus("buttonText")}</span>
                             <span>&rarr;</span>
                           </Button>
                         ))}

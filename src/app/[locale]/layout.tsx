@@ -9,7 +9,7 @@ type LocaleLayoutProps = {
 };
 
 export default function LocaleLayout({ children }: LocaleLayoutProps) {
-  const t = useTranslations("Header");
+  const tHeader = useTranslations("Header");
 
   const locale = useLocale();
 
@@ -19,23 +19,23 @@ export default function LocaleLayout({ children }: LocaleLayoutProps) {
         links={{
           home: {
             href: `/${locale}`,
-            text: t("homeText"),
+            text: tHeader("homeText"),
           },
           bonus: {
             href: `/${locale}/bonus`,
-            text: t("bonusText"),
+            text: tHeader("bonusText"),
           },
         }}
         banners={[
-          t("banner0Text"),
-          t("banner1Text"),
-          t("banner2Text"),
-          t("banner3Text"),
-          t("banner4Text"),
-          t("banner5Text"),
-          t("banner6Text"),
-          t("banner7Text"),
-          t("banner8Text"),
+          tHeader("banner0Text"),
+          tHeader("banner1Text"),
+          tHeader("banner2Text"),
+          tHeader("banner3Text"),
+          tHeader("banner4Text"),
+          tHeader("banner5Text"),
+          tHeader("banner6Text"),
+          tHeader("banner7Text"),
+          tHeader("banner8Text"),
         ]}
       />
       {children}
