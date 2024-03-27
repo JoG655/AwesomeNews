@@ -1,34 +1,21 @@
-import type { ApiNewsLanguage } from "@/api/news-api/newsAPI";
+import type { NewsApiEverythingParams } from "@/api/news-api/newsAPI";
 import { getEverythingData } from "@/api/news-api/newsAPI";
 
 import { Suspense } from "react";
 
 import { Spinner } from "@/components/spinner/Spinner";
 
-export type EverythingProps = {
-  q?: string;
-  qInTitle?: string;
-  language?: ApiNewsLanguage;
-  pageSize?: number;
-  page?: number;
-};
+export type EverythingProps = Omit<
+  NewsApiEverythingParams,
+  "sources" | "domains" | "excludeDomains" | "sortBy"
+>;
 
-export default async function Everything({
-  q,
-  qInTitle,
-  language = "en",
-  pageSize = 5,
-  page = 1,
-}: EverythingProps) {
-  const sources = !q ? ["bbc-news"] : undefined;
+export async function Everything(props: EverythingProps) {
+  const sources = !props.q ? ["bbc-news"] : undefined;
 
   const data = await getEverythingData({
-    q,
-    qInTitle,
+    ...props,
     sources,
-    language,
-    pageSize,
-    page,
   });
 
   return (

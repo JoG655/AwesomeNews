@@ -1,22 +1,17 @@
-import type { ApiNewsCountry, ApiNewsCategory } from "@/api/news-api/newsAPI";
+import type { NewsApiTopHeadlinesParams } from "@/api/news-api/newsAPI";
 import { getTopHeadlinesData } from "@/api/news-api/newsAPI";
 
 import { Suspense } from "react";
 
 import { Spinner } from "@/components/spinner/Spinner";
 
-export type TopHeadlinesProps = {
-  country?: ApiNewsCountry;
-  category?: ApiNewsCategory;
-  pageSize?: number;
-};
+export type TopHeadlinesProps = Omit<
+  NewsApiTopHeadlinesParams,
+  "q" | "sources" | "page"
+>;
 
-export default async function TopHeadlines({
-  country = "us",
-  category = "sports",
-  pageSize = 4,
-}: TopHeadlinesProps) {
-  const data = await getTopHeadlinesData({ country, category, pageSize });
+export async function TopHeadlines(props: TopHeadlinesProps) {
+  const data = await getTopHeadlinesData(props);
 
   return (
     <>
