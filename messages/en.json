@@ -1,9 +1,19 @@
 {
-  "Index": {
-    "buttonText": "Learn more"
-  },
   "Header": {
     "homeText": "Home",
-    "calendarText": "Calendar"
+    "bonusText": "Bonus",
+    "banner0Text": "Skateboarding",
+    "banner1Text": "Programming",
+    "banner2Text": "Weight Lifting",
+    "banner3Text": "Fishing",
+    "banner4Text": "Hiking",
+    "banner5Text": "React",
+    "banner6Text": "Next.js",
+    "banner7Text": "Web Development",
+    "banner8Text": "Coding"
+  },
+  "Bonus": {
+    "spinnerText": "Učitavam...",
+    "buttonText": "Learn more"
   }
 }

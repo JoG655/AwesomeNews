@@ -5,10 +5,12 @@ import { Suspense } from "react";
 
 import { Spinner } from "@/components/spinner/Spinner";
 
-export type TopHeadlinesProps = Omit<
+type TopHeadlinesProps = Omit<
   NewsApiTopHeadlinesParams,
   "q" | "sources" | "page"
 >;
+
+export type TopHeadlinesArgs = TopHeadlinesProps;
 
 export async function TopHeadlines(props: TopHeadlinesProps) {
   const data = await getTopHeadlinesData(props);

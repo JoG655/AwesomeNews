@@ -21,11 +21,22 @@ export default function LocaleLayout({ children }: LocaleLayoutProps) {
             href: `/${locale}`,
             text: t("homeText"),
           },
-          calendar: {
-            href: `/${locale}/calendar`,
-            text: t("calendarText"),
+          bonus: {
+            href: `/${locale}/bonus`,
+            text: t("bonusText"),
           },
         }}
+        banners={[
+          t("banner0Text"),
+          t("banner1Text"),
+          t("banner2Text"),
+          t("banner3Text"),
+          t("banner4Text"),
+          t("banner5Text"),
+          t("banner6Text"),
+          t("banner7Text"),
+          t("banner8Text"),
+        ]}
       />
       {children}
     </main>

@@ -5,10 +5,12 @@ import { Suspense } from "react";
 
 import { Spinner } from "@/components/spinner/Spinner";
 
-export type EverythingProps = Omit<
+type EverythingProps = Omit<
   NewsApiEverythingParams,
   "sources" | "domains" | "excludeDomains" | "sortBy"
 >;
+
+export type EverythingArgs = EverythingProps;
 
 export async function Everything(props: EverythingProps) {
   const sources = !props.q ? ["bbc-news"] : undefined;

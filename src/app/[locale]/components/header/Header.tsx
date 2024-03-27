@@ -9,8 +9,6 @@ import tailwindConfig from "../../../../../tailwind.config";
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 
-import { categories } from "@/data/categories";
-
 import { usePrevious } from "@/hooks/usePrevious/usePrevious";
 
 import { trapFocus } from "@/utils/focus/trapFocus";
@@ -27,21 +25,23 @@ import infozona from "@/data/infozona.svg";
 import Hamburger from "hamburger-react";
 
 import { LocalSwitch } from "./locale-switch/LocaleSwitch";
-import { CategorySlider } from "./category-slider/CategorySlider";
+import { BannerSlider } from "./banner-slider/BannerSlider";
 import { Button } from "@/components/button/Button";
-import { disableFocus } from "@/utils/focus/disableFocus";
 
 type LinkPartial = { href: LinkProps["href"]; text: string };
 
-type HeaderProps = { links: { home: LinkPartial; calendar: LinkPartial } };
+type BannerPartial = string[];
+
+type HeaderProps = {
+  links: { home: LinkPartial; bonus: LinkPartial };
+  banners: BannerPartial;
+};
 
 const LOGO_HEIGHT = 100;
 const MD_BREAKPOINT = parseInt(resolveConfig(tailwindConfig).theme.screens.md);
 
-export function Header({ links }: HeaderProps) {
+export function Header({ links, banners }: HeaderProps) {
   const navRef = useRef<HTMLDivElement>(null);
-
-  const menuRef = useRef<HTMLDivElement>(null);
 
   const [width, setWidth] = useState(0);
 
@@ -49,7 +49,7 @@ export function Header({ links }: HeaderProps) {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [selectedCategory, setSelectedCategory] = useState(categories[8]);
+  const [selectedBanner, setSelectedBanner] = useState(banners[0]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -79,16 +79,6 @@ export function Header({ links }: HeaderProps) {
 
     if (previousWidth < MD_BREAKPOINT && width >= MD_BREAKPOINT)
       setIsOpen(false);
-
-    const menuRefElement = menuRef.current;
-
-    if (!menuRefElement) return;
-
-    if (previousWidth < MD_BREAKPOINT && width >= MD_BREAKPOINT) {
-      disableFocus.disable(menuRefElement);
-    } else if (previousWidth >= MD_BREAKPOINT && width < MD_BREAKPOINT) {
-      disableFocus.enable(menuRefElement);
-    }
   }, [previousWidth, width]);
 
   useEffect(() => {
@@ -104,21 +94,8 @@ export function Header({ links }: HeaderProps) {
 
     document.addEventListener("keydown", handleKeydown);
 
-    const menuRefElement = menuRef.current;
-
-    if (!menuRefElement) return;
-
-    const disableFocusToggle =
-      isOpen || window.innerWidth > MD_BREAKPOINT
-        ? disableFocus.disable
-        : disableFocus.enable;
-
-    disableFocusToggle(menuRefElement);
-
     return () => {
       document.removeEventListener("keydown", handleKeydown);
-
-      disableFocus.disable(menuRefElement);
     };
   }, [isOpen]);
 
@@ -149,12 +126,9 @@ export function Header({ links }: HeaderProps) {
           <Hamburger toggled={isOpen} />
         </Button>
         <div
-          ref={menuRef}
           className={twMerge(
-            "absolute top-[--logo-height] z-50 grid w-full grid-rows-[0fr] transition-[grid-template-rows] duration-500 md:static md:flex md:w-auto md:items-center",
-            isOpen
-              ? "h-[calc(100dvh-var(--logo-height))] grid-rows-[1fr]"
-              : null,
+            "pointer-events-none absolute top-[--logo-height] z-50 grid h-[calc(100dvh-var(--logo-height))] w-full grid-rows-[0fr] transition-[grid-template-rows] duration-500 md:pointer-events-auto md:static md:flex md:h-auto md:w-auto md:items-center",
+            isOpen ? "pointer-events-auto grid-rows-[1fr]" : null,
           )}
           style={{ "--logo-height": `${LOGO_HEIGHT}px` } as CSSProperties}
         >
@@ -165,6 +139,7 @@ export function Header({ links }: HeaderProps) {
                   variant: links.home.href === pathname ? "primary" : "outline",
                   size: "md",
                 })}
+                tabIndex={!isOpen && width < MD_BREAKPOINT ? -1 : undefined}
                 href={links.home.href}
               >
                 {links.home.text}
@@ -174,26 +149,29 @@ export function Header({ links }: HeaderProps) {
               <Link
                 className={buttonCVA({
                   variant:
-                    links.calendar.href === pathname ? "primary" : "outline",
+                    links.bonus.href === pathname ? "primary" : "outline",
                   size: "md",
                 })}
-                href={links.calendar.href}
+                tabIndex={!isOpen && width < MD_BREAKPOINT ? -1 : undefined}
+                href={links.bonus.href}
               >
-                {links.calendar.text}
+                {links.bonus.text}
               </Link>
             </li>
             <li className="p-1">
-              <LocalSwitch />
+              <LocalSwitch
+                tabIndex={!isOpen && width < MD_BREAKPOINT ? -1 : undefined}
+              />
             </li>
           </ul>
         </div>
       </nav>
       <section>
         <div className="mt-2 border-b-2 border-t-4 border-solid border-b-primary-400 border-t-primary-800 p-1">
-          <CategorySlider
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
+          <BannerSlider
+            banners={banners}
+            selectedBanner={selectedBanner}
+            onSelectBanner={setSelectedBanner}
             separator={
               <div className="mx-1 border-r-2 border-solid border-b-primary-400"></div>
             }

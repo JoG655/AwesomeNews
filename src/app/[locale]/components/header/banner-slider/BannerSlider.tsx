@@ -22,28 +22,28 @@ import { Button } from "@/components/button/Button";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-type CategorySliderProps = {
+type BannerSliderProps = {
   separator?: ReactElement;
-  categories: string[];
-  selectedCategory: string;
-  onSelectCategory: Dispatch<SetStateAction<string>>;
+  banners: string[];
+  selectedBanner: string;
+  onSelectBanner: Dispatch<SetStateAction<string>>;
 };
 
 const TRANSLATE_DELTA = 200;
 const NAVIGATION_WIDTH = 96;
 
-export function CategorySlider({
+export function BannerSlider({
   separator,
-  categories,
-  selectedCategory,
-  onSelectCategory,
-}: CategorySliderProps) {
+  banners,
+  selectedBanner,
+  onSelectBanner,
+}: BannerSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const categoriesButtonsRef = useRef<RefObject<HTMLButtonElement>[]>([]);
+  const bannersButtonsRef = useRef<RefObject<HTMLButtonElement>[]>([]);
 
-  categoriesButtonsRef.current = categories.map(
-    (_, i) => categoriesButtonsRef.current[i] ?? createRef<HTMLButtonElement>(),
+  bannersButtonsRef.current = banners.map(
+    (_, i) => bannersButtonsRef.current[i] ?? createRef<HTMLButtonElement>(),
   );
 
   const [isLeftVisible, setIsLeftVisible] = useState(false);
@@ -107,24 +107,24 @@ export function CategorySlider({
     return () => {
       observer.disconnect();
     };
-  }, [categories, translateOffset]);
+  }, [banners, translateOffset]);
 
   useEffect(() => {
-    const categoriesButtonsRefElements = categoriesButtonsRef.current;
+    const bannersButtonsRefElements = bannersButtonsRef.current;
 
-    if (categoriesButtonsRefElements.length === 0) return;
+    if (bannersButtonsRefElements.length === 0) return;
 
-    const selectedCategoryIndex = categories.indexOf(selectedCategory);
+    const selectedBannerIndex = banners.indexOf(selectedBanner);
 
-    const selectedCategoryTarget =
-      categoriesButtonsRefElements[selectedCategoryIndex].current;
+    const selectedBannerTarget =
+      bannersButtonsRefElements[selectedBannerIndex].current;
 
-    if (selectedCategoryTarget == null) return;
+    if (selectedBannerTarget == null) return;
 
-    translateButton(selectedCategoryTarget);
-  }, [categories, selectedCategory, translateButton]);
+    translateButton(selectedBannerTarget);
+  }, [banners, selectedBanner, translateButton]);
 
-  const observedElements = useInView([...categoriesButtonsRef.current]);
+  const observedElements = useInView([...bannersButtonsRef.current]);
 
   function translateLeft(delta: number) {
     setTranslateOffset((t) => {
@@ -190,20 +190,20 @@ export function CategorySlider({
         className="flex w-[max-content] gap-3 whitespace-nowrap transition-transform"
         style={{ transform: `translateX(-${translateOffset}px)` }}
       >
-        {categories.map((category, i) => (
-          <Fragment key={category}>
+        {banners.map((banner, i) => (
+          <Fragment key={banner}>
             <Button
-              ref={categoriesButtonsRef.current[i]}
-              variant={selectedCategory === category ? "primary" : "ghost"}
+              ref={bannersButtonsRef.current[i]}
+              variant={selectedBanner === banner ? "primary" : "ghost"}
               className="whitespace-nowrap rounded-lg px-3 py-1"
-              onClick={() => onSelectCategory(category)}
+              onClick={() => onSelectBanner(banner)}
               onFocus={(e) => handleButtonFocus(e)}
-              data-use-in-view-tag={category}
-              tabIndex={!observedElements[category]?.isInView ? -1 : undefined}
+              data-use-in-view-tag={banner}
+              tabIndex={!observedElements[banner]?.isInView ? -1 : undefined}
             >
-              {category}
+              {banner}
             </Button>
-            {i < categories.length - 1 ? separator : null}
+            {i < banners.length - 1 ? separator : null}
           </Fragment>
         ))}
       </div>

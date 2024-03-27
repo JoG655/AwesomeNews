@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChangeEvent } from "react";
+import type { ChangeEvent, ComponentPropsWithoutRef } from "react";
 import { useTransition } from "react";
 
 import { usePathname, useRouter } from "next/navigation";
@@ -12,7 +12,9 @@ import { supportedLanguages } from "@/middleware";
 
 import { buttonCVA } from "@/components/button/buttonCVA";
 
-export function LocalSwitch() {
+type LocalSwitchProps = ComponentPropsWithoutRef<"select">;
+
+export function LocalSwitch({ tabIndex, disabled, ...rest }: LocalSwitchProps) {
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
@@ -39,7 +41,11 @@ export function LocalSwitch() {
 
   return supportedLanguages.locales.length !== 0 ? (
     <>
-      <label htmlFor="ChangeLanguage" className="sr-only">
+      <label
+        // htmlFor={!isPending && !disabled ? "ChangeLanguage" : undefined}
+        htmlFor="ChangeLanguage"
+        className="sr-only"
+      >
         Change Language
       </label>
       <select
@@ -47,7 +53,9 @@ export function LocalSwitch() {
         className={buttonCVA({ variant: "outline", size: "md" })}
         onChange={handleChange}
         defaultValue={localActive}
-        disabled={isPending}
+        tabIndex={tabIndex}
+        disabled={disabled || isPending}
+        {...rest}
       >
         {supportedLanguages.locales.map((locale, i) => {
           return (

@@ -1,9 +1,19 @@
 {
-  "Index": {
-    "buttonText": "Nauči više"
-  },
   "Header": {
     "homeText": "Početna",
-    "calendarText": "Kalendar"
+    "bonusText": "Bonus",
+    "banner0Text": "Skejtanje",
+    "banner1Text": "Programiranje",
+    "banner2Text": "Dizanje utega",
+    "banner3Text": "Ribarenje",
+    "banner4Text": "Planinarenje",
+    "banner5Text": "React",
+    "banner6Text": "Next.js",
+    "banner7Text": "Web razvijanje",
+    "banner8Text": "Kodiranje"
+  },
+  "Bonus": {
+    "spinnerText": "Učitavam...",
+    "buttonText": "Nauči više"
   }
 }
