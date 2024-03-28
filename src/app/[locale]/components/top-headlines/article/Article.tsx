@@ -89,7 +89,7 @@ export function Article({
               <div className="relative flex justify-between text-primary-600">
                 <div className="space-x-2">
                   <span className="bg-white">{date.getDate()}</span>
-                  <span className="bg-white">{date.getMonth()}</span>
+                  <span className="bg-white">{date.getMonth() + 1}</span>
                   <span className="bg-white">{date.getFullYear() % 1000}</span>
                 </div>
                 <div>
