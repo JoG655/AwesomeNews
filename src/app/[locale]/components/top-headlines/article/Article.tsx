@@ -11,7 +11,7 @@ import Link from "next/link";
 
 import { twMerge } from "tailwind-merge";
 
-import { ArticleImage } from "@/components/article-image/ArticleImage";
+import { ArticlePicture } from "@/components/article-picture/ArticlePicture";
 
 import { readingTime } from "@/utils/reading-time/readingTime";
 
@@ -20,11 +20,17 @@ type LinkPartial = {
   className?: ComponentPropsWithoutRef<"a">["className"];
 };
 
-type ArticlePartial = Omit<NewsApiArticle, "source" | "author" | "description">;
+type ArticlePartial = Omit<
+  NewsApiArticle,
+  "source" | "author" | "description"
+> & {
+  variant: "sm" | "md" | "lg";
+};
 
 type ArticleProps = ArticlePartial & LinkPartial;
 
 export function Article({
+  variant,
   title,
   urlToImage,
   publishedAt,
@@ -37,37 +43,62 @@ export function Article({
 
   const tCategory = useTranslations("Category");
 
-  const dateObject = new Date(publishedAt);
-
-  const date = dateObject.getDate();
-
-  const time = dateObject.getTime();
+  const date = new Date(publishedAt);
 
   return (
-    <article>
+    <article className="basis-full p-2">
       <Link
         href={url}
         className={twMerge(
-          "relative h-80 ring-focus transition hover:cursor-pointer hover:bg-primary-400 focus:outline-none focus-visible:ring-4 md:flex-row-reverse",
+          "relative flex scale-95 flex-col gap-4 rounded-lg bg-white p-2 ring-focus transition hover:scale-100 hover:cursor-pointer focus:scale-100 focus:outline-none focus-visible:ring-4",
           className,
+          variant === "lg" ? "lg:flex-row-reverse" : null,
         )}
       >
-        {urlToImage ? <ArticleImage src={urlToImage} alt="logo" /> : null}
+        <ArticlePicture
+          className={twMerge(
+            "flex-shrink-0",
+            variant === "sm" ? "h-[150px]" : null,
+            variant === "md" ? "h-[400px] lg:h-[200px]" : null,
+            variant === "lg" ? "h-[400px] lg:basis-3/5" : null,
+          )}
+          image={{ src: urlToImage, alt: title }}
+        />
 
-        <div className="flex w-full flex-col items-start">
-          <h2 className="text-balance text-2xl text-primary-600">{title}</h2>
-          <div className="flex flex-shrink-0 flex-col gap-2">
-            <div className="border-2 border-solid border-primary-600 px-1 py-2 text-center text-lg uppercase">
-              {category ? tCategory(category) : "/"}
-            </div>
-            <div className="border-2 border-solid border-primary-600 px-1 py-2 text-center text-lg uppercase">
-              {`${tArticle("readingTimeText")} ${readingTime(content)} min`}
-            </div>
-          </div>
-          <div className="flex flex-shrink-0 justify-between border-b-2 border-solid border-b-primary-600">
-            <div>{date}</div>
-            <div>{time}</div>
-          </div>
+        <div className="flex w-full flex-col gap-2">
+          <h2
+            className={twMerge(
+              "max-h-48 overflow-hidden text-balance text-primary-600",
+              variant === "sm" ? "text-lg" : null,
+              variant === "md" ? "text-xl" : null,
+              variant === "lg" ? "text-2xl lg:max-h-64" : null,
+            )}
+          >
+            {title}
+          </h2>
+          {variant === "lg" ? (
+            <>
+              <div className="flex flex-wrap gap-2">
+                <div className="text-nowrap border-2 border-solid border-primary-600 p-2 text-center text-lg uppercase">
+                  {category ? tCategory(category) : "/"}
+                </div>
+                <div className="text-nowrap border-2 border-solid border-primary-600 p-2 text-center text-lg uppercase">
+                  {`${tArticle("readingTimeText")} ${readingTime(content)} min`}
+                </div>
+              </div>
+              <div className="relative flex justify-between text-primary-600">
+                <div className="space-x-2">
+                  <span className="bg-white">{date.getDate()}</span>
+                  <span className="bg-white">{date.getMonth()}</span>
+                  <span className="bg-white">{date.getFullYear() % 1000}</span>
+                </div>
+                <div>
+                  <span className="bg-white">{`${date.getHours()}:${date.getMinutes() < 10 ? 0 : ""}${date.getMinutes()}h`}</span>
+                </div>
+                <span className="absolute bottom-1 -z-10 h-px w-full bg-primary-600"></span>
+              </div>
+            </>
+          ) : null}
         </div>
       </Link>
     </article>

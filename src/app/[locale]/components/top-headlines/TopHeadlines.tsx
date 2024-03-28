@@ -21,15 +21,19 @@ export async function TopHeadlines(props: TopHeadlinesProps) {
 
   return (
     <section className="flex flex-col gap-5">
-      <h1>TOP HEADLINES {data.totalResults}</h1>
       <Suspense fallback={<Spinner>Loading Top Headlines...</Spinner>}>
         <section>
-          <Article {...mainArticleData} category="business" />
+          <Article variant="lg" {...mainArticleData} category="business" />
         </section>
 
-        <section>
+        <section className="lg:flex lg:flex-nowrap">
           {articlesData.map((article) => (
-            <Article key={article.title} {...article} category="business" />
+            <Article
+              variant="md"
+              key={article.title}
+              {...article}
+              category="business"
+            />
           ))}
         </section>
       </Suspense>

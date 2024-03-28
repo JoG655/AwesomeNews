@@ -13,7 +13,7 @@ export default function LocalePage({ searchParams }: LocalePageProps) {
     <>
       <TopHeadlines
         country={searchParams.country ? searchParams.country : "us"}
-        category={searchParams.category ? searchParams.category : "sports"}
+        category={searchParams.category ? searchParams.category : "business"}
         pageSize={4}
       />
       <Everything

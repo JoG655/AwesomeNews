@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang={locale}>
       <body
-        className={`${inter.className} mx-auto flex min-h-dvh max-w-5xl animate-fadeIn flex-col`}
+        className={`${inter.className} mx-auto flex min-h-dvh max-w-5xl animate-fadeIn flex-col scroll-smooth`}
       >
         {children}
       </body>
