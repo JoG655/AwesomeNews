@@ -50,7 +50,7 @@ export function Article({
       <Link
         href={url}
         className={twMerge(
-          "relative flex scale-95 flex-col gap-4 rounded-lg bg-white p-2 ring-focus transition hover:scale-100 hover:cursor-pointer focus:scale-100 focus:outline-none focus-visible:ring-4",
+          "relative flex scale-[0.98] flex-col gap-4 rounded-lg bg-white p-2 ring-focus transition hover:scale-100 hover:cursor-pointer focus:scale-100 focus:outline-none focus-visible:ring-4",
           className,
           variant === "lg" ? "lg:flex-row-reverse" : null,
         )}
