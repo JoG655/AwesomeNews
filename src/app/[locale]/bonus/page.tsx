@@ -39,7 +39,7 @@ export default function BonusPage() {
                             animationCount={spinnerAnimationCount}
                             key={spinnerAnimationCount}
                           >
-                            {tBonus("spinnerText")}
+                            {spinnerText ? tBonus("spinnerText") : null}
                           </Spinner>
                         ))}
                       </div>

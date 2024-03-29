@@ -12,6 +12,11 @@
     "banner7Text": "Web razvijanje",
     "banner8Text": "Kodiranje"
   },
+  "Footer": {
+    "impressumText": "Impressum",
+    "rulesText": "Pravila korištenja",
+    "contactText": "Kontakti"
+  },
   "Bonus": {
     "buttonText": "Nauči više",
     "spinnerText": "Učitavam..."

@@ -2,7 +2,9 @@ import type { ReactNode } from "react";
 
 import { useLocale, useTranslations } from "next-intl";
 
-import { Header } from "@/app/[locale]/components/header/Header";
+import { Header } from "./components/header/Header";
+
+import { Footer } from "./components/footer/Footer";
 
 type LocaleLayoutProps = {
   children: ReactNode;
@@ -39,6 +41,7 @@ export default function LocaleLayout({ children }: LocaleLayoutProps) {
         ]}
       />
       {children}
+      <Footer />
     </main>
   );
 }

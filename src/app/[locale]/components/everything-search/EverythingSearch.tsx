@@ -96,7 +96,7 @@ export function EverythingSearch({
         page: 1,
         ...params,
       });
-      console.log("search", params);
+
       detachedRouter.current.replace(
         `${detachedPathname.current}?${queryString}`,
         { scroll: false },
@@ -110,20 +110,21 @@ export function EverythingSearch({
 
   return (
     <fieldset
-      className="flex items-center justify-between gap-2 bg-primary-200 p-2 text-sm lg:text-base"
+      className="flex flex-col items-start gap-2 bg-primary-200 p-2 text-sm md:flex-row md:items-center md:justify-between lg:text-base"
       disabled={isPending}
     >
       <div className="group flex items-center gap-2">
         <label
           htmlFor="ChangePageSize"
-          className="flex items-center gap-2 hover:cursor-pointer"
+          className="flex w-20 flex-col items-center hover:cursor-pointer md:w-auto"
         >
-          <Layers /> {pageSizeText}
+          <Layers />
+          {pageSizeText}
         </label>
-        <div className="grid grid-cols-[0fr] transition-[grid-template-columns] group-focus-within:grid-cols-[1fr] group-hover:grid-cols-[1fr]">
+        <div className="grid-cols-[0fr] transition-[grid-template-columns] group-focus-within:grid-cols-[1fr] group-hover:grid-cols-[1fr] md:grid">
           <select
             id="ChangePageSize"
-            className="min-h-10 min-w-0 rounded-lg border-primary-600 bg-primary text-sm text-primary-600 ring-focus transition hover:cursor-pointer focus:cursor-auto focus:border-2 focus:outline-none focus-visible:ring-4 disabled:cursor-not-allowed group-focus-within:px-5 group-focus-within:py-2 group-hover:px-5 group-hover:py-2"
+            className="min-h-10 min-w-0 rounded-lg border-primary-600 bg-primary px-5 py-2 text-sm text-primary-600 ring-focus transition hover:cursor-pointer focus:cursor-auto focus:border-2 focus:outline-none focus-visible:ring-4 disabled:cursor-not-allowed group-focus-within:px-5 group-hover:px-5 md:px-0"
             onChange={(e) => transitionCallback({ pageSize: e.target.value })}
             defaultValue={pageSize}
           >
@@ -138,14 +139,15 @@ export function EverythingSearch({
       <div className="group flex items-center gap-2">
         <label
           htmlFor="ChangeSearchLanguage"
-          className="flex items-center gap-2 hover:cursor-pointer"
+          className="flex w-20 flex-col items-center hover:cursor-pointer md:w-auto"
         >
-          <BookOpenCheck /> {languageText}
+          <BookOpenCheck />
+          {languageText}
         </label>
-        <div className="grid grid-cols-[0fr] transition-[grid-template-columns] group-focus-within:grid-cols-[1fr] group-hover:grid-cols-[1fr]">
+        <div className="grid-cols-[0fr] transition-[grid-template-columns] group-focus-within:grid-cols-[1fr] group-hover:grid-cols-[1fr] md:grid">
           <select
             id="ChangeSearchLanguage"
-            className="min-h-10 min-w-0 rounded-lg border-primary-600 bg-primary text-sm text-primary-600 ring-focus transition hover:cursor-pointer focus:cursor-auto focus:border-2 focus:outline-none focus-visible:ring-4 disabled:cursor-not-allowed group-focus-within:px-5 group-focus-within:py-2 group-hover:px-5 group-hover:py-2"
+            className="min-h-10 min-w-0 rounded-lg border-primary-600 bg-primary px-5 py-2 text-sm text-primary-600 ring-focus transition hover:cursor-pointer focus:cursor-auto focus:border-2 focus:outline-none focus-visible:ring-4 disabled:cursor-not-allowed group-focus-within:px-5 group-hover:px-5 md:px-0"
             onChange={(e) => transitionCallback({ language: e.target.value })}
             defaultValue={language}
           >
@@ -160,29 +162,28 @@ export function EverythingSearch({
       <div className="group flex items-center gap-2">
         <label
           htmlFor="ChangeSearchQuery"
-          className="flex items-center gap-2 hover:cursor-pointer"
+          className="flex w-20 flex-col items-center hover:cursor-pointer md:w-auto"
         >
-          <Search /> {queryText}
+          <Search />
+          {queryText}
         </label>
-        <div className="grid grid-cols-[0fr] transition-[grid-template-columns] group-focus-within:grid-cols-[1fr] group-hover:grid-cols-[1fr]">
+        <div className="grid-cols-[0fr] transition-[grid-template-columns] group-focus-within:grid-cols-[1fr] group-hover:grid-cols-[1fr] md:grid">
           <input
             id="ChangeSearchQuery"
-            className="min-h-10 min-w-0 rounded-lg border-primary-600 bg-primary text-sm text-primary-600 ring-focus transition hover:cursor-pointer focus:cursor-auto focus:border-2 focus:outline-none focus-visible:ring-4 disabled:cursor-not-allowed group-focus-within:px-5 group-focus-within:py-2 group-hover:px-5 group-hover:py-2"
+            className="min-h-10 min-w-0 rounded-lg border-primary-600 bg-primary px-5 py-2 text-sm text-primary-600 ring-focus transition hover:cursor-pointer focus:cursor-auto focus:border-2 focus:outline-none focus-visible:ring-4 disabled:cursor-not-allowed group-focus-within:px-5 group-hover:px-5 md:px-0"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             type="search"
           />
         </div>
       </div>
-      <div className="flex items-center gap-2">
-        <div>
-          <Newspaper
-            className={twMerge(
-              "text-green-500",
-              !totalResults ? "text-red-500" : null,
-            )}
-          />
-        </div>
+      <div className="flex flex-col items-center">
+        <Newspaper
+          className={twMerge(
+            "w-20 text-green-500 md:w-auto",
+            !totalResults ? "text-red-500" : null,
+          )}
+        />
         <div>{totalResults}</div>
       </div>
     </fieldset>

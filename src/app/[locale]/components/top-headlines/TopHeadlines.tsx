@@ -7,7 +7,7 @@ import { useLocale } from "next-intl";
 
 import { Spinner } from "@/components/spinner/Spinner";
 
-import { Article } from "@/app/[locale]/components/article/Article";
+import { Article } from "../article/Article";
 
 import { encodeString } from "@/utils/string-manipulation/encodeString";
 

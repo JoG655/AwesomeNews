@@ -12,6 +12,11 @@
     "banner7Text": "Web Development",
     "banner8Text": "Coding"
   },
+  "Footer": {
+    "impressumText": "Impressum",
+    "rulesText": "Rules",
+    "contactText": "Contacts"
+  },
   "Bonus": {
     "buttonText": "Learn more",
     "spinnerText": "Loading..."

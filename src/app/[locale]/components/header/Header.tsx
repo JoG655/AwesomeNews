@@ -22,11 +22,13 @@ import Image from "next/image";
 
 import infozona from "@/data/infozona.svg";
 
+import { Button } from "@/components/button/Button";
+
 import Hamburger from "hamburger-react";
 
 import { LocalSwitch } from "./locale-switch/LocaleSwitch";
+
 import { BannerSlider } from "./banner-slider/BannerSlider";
-import { Button } from "@/components/button/Button";
 
 type LinkPartial = { href: LinkProps["href"]; text: string };
 

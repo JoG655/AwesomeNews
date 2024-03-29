@@ -9,7 +9,7 @@ import { Spinner } from "@/components/spinner/Spinner";
 
 import { EverythingSearch } from "../everything-search/EverythingSearch";
 
-import { Article } from "@/app/[locale]/components/article/Article";
+import { Article } from "../article/Article";
 
 import { encodeString } from "@/utils/string-manipulation/encodeString";
 
