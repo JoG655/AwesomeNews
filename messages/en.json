@@ -19,6 +19,10 @@
   "Article": {
     "readingTimeText": "Reading Time"
   },
+  "ArticleNotFound": {
+    "titleText": "Oops! Looks like the article does not exist.",
+    "buttonText": "Let's go back to home page"
+  },
   "Category": {
     "business": "Business",
     "entertainment": "Entertainment",
@@ -32,6 +36,9 @@
     "spinnerText": "Loading main articles..."
   },
   "Everything": {
-    "spinnerText": "Loading articles..."
+    "spinnerText": "Loading articles...",
+    "pageSizeText": "Page Size",
+    "languageText": "Language",
+    "queryText": "Search"
   }
 }

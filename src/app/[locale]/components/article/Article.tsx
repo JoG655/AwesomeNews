@@ -7,7 +7,7 @@ import type { Url } from "next/dist/shared/lib/router/router";
 
 import { ComponentPropsWithoutRef } from "react";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 import Link from "next/link";
 
@@ -45,8 +45,6 @@ export function Article({
   const tArticle = useTranslations("Article");
 
   const tCategory = useTranslations("Category");
-
-  const locale = useLocale();
 
   const date = new Date(publishedAt);
 

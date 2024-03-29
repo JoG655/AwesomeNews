@@ -7,7 +7,7 @@ import { useLocale } from "next-intl";
 
 import { Spinner } from "@/components/spinner/Spinner";
 
-import { Article } from "@/components/article/Article";
+import { Article } from "@/app/[locale]/components/article/Article";
 
 import { encodeString } from "@/utils/string-manipulation/encodeString";
 
@@ -43,10 +43,8 @@ export async function TopHeadlines({
             {...mainArticle}
             category="business"
             href={{
-              pathname: `/${locale}/}`,
-              query: encodeString({
-                qInTitle: mainArticle.title.slice(0, 200),
-              }),
+              pathname: `/${locale}/article`,
+              query: encodeString({ id: mainArticle.title.slice(0, 400) }),
             }}
           />
         </section>
@@ -58,10 +56,8 @@ export async function TopHeadlines({
               key={article.title}
               {...article}
               href={{
-                pathname: `/${locale}/}`,
-                query: encodeString({
-                  qInTitle: article.title.slice(0, 200),
-                }),
+                pathname: `/${locale}/article`,
+                query: encodeString({ id: article.title.slice(0, 400) }),
               }}
             />
           ))}

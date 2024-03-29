@@ -7,30 +7,33 @@ import { useLocale } from "next-intl";
 
 import { Spinner } from "@/components/spinner/Spinner";
 
-import { Article } from "@/components/article/Article";
-
 import { EverythingSearch } from "../everything-search/EverythingSearch";
 
-import { EverythingNavigation } from "../everything-navigation/EverythingNavigation";
+import { Article } from "@/app/[locale]/components/article/Article";
 
 import { encodeString } from "@/utils/string-manipulation/encodeString";
 
-import type { SlugPageArgs } from "../../[slug]/page";
+import { EverythingNavigation } from "../everything-navigation/EverythingNavigation";
 
 type EverythingProps = {
   q?: string;
+  qInTitle?: string;
   language: ApiNewsLanguage;
   pageSize: "5" | "10" | "20";
   page: string;
+  pageSizeText: string;
+  languageText: string;
+  queryText: string;
 };
 
 export type EverythingArgs = EverythingProps;
 
 export async function Everything({
-  q,
+  q = "",
   language,
   pageSize,
   page,
+  ...rest
 }: EverythingProps) {
   const locale = useLocale();
 
@@ -45,35 +48,32 @@ export async function Everything({
   });
 
   return (
-    <>
-      <Suspense fallback={<Spinner>Loading...</Spinner>}>
-        <EverythingSearch
-          q={q}
-          language={language}
-          pageSize={+pageSize}
-          totalResults={data.totalResults}
-        />
-        <section className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-2">
-          {data.articles.map((article) => (
-            <Article
-              variant="sm"
-              key={article.title}
-              {...article}
-              href={{
-                pathname: `/${locale}/}`,
-                query: encodeString({
-                  qInTitle: article.title.slice(0, 200),
-                }),
-              }}
-            />
-          ))}
-        </section>
-        <EverythingNavigation
-          pageSize={+pageSize}
-          page={+page}
-          totalResults={data.totalResults}
-        />
-      </Suspense>
-    </>
+    <Suspense fallback={<Spinner>Loading...</Spinner>}>
+      <EverythingSearch
+        q={q}
+        language={language}
+        pageSize={+pageSize}
+        totalResults={data.totalResults}
+        {...rest}
+      />
+      <section className="grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-2">
+        {data.articles.map((article) => (
+          <Article
+            variant="sm"
+            key={article.title}
+            {...article}
+            href={{
+              pathname: `/${locale}/article`,
+              query: encodeString({ id: article.title.slice(0, 400) }),
+            }}
+          />
+        ))}
+      </section>
+      <EverythingNavigation
+        pageSize={+pageSize}
+        page={+page}
+        totalResults={data.totalResults}
+      />
+    </Suspense>
   );
 }
