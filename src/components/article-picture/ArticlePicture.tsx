@@ -36,22 +36,26 @@ export const ArticlePicture = forwardRef<
     ...imageRest
   } = image;
 
-  if (!src) return;
-
   return (
     <picture
       ref={ref}
-      className={twMerge("relative block h-80 w-full", className)}
+      className={twMerge(
+        "relative block h-80 w-full",
+        className,
+        !src ? "bg-gradient-to-br from-gray-300 to-zinc-500" : null,
+      )}
       {...rest}
     >
-      <Image
-        src={src}
-        alt={alt}
-        fill={true}
-        style={style}
-        sizes={sizes}
-        {...imageRest}
-      />
+      {src ? (
+        <Image
+          src={src}
+          alt={alt}
+          fill={true}
+          style={style}
+          sizes={sizes}
+          {...imageRest}
+        />
+      ) : null}
     </picture>
   );
 });

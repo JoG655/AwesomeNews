@@ -13,8 +13,8 @@
     "banner8Text": "Kodiranje"
   },
   "Bonus": {
-    "spinnerText": "Učitavam...",
-    "buttonText": "Nauči više"
+    "buttonText": "Nauči više",
+    "spinnerText": "Učitavam..."
   },
   "Article": {
     "readingTimeText": "Vrijeme čitanja"
@@ -27,5 +27,11 @@
     "science": "Znanost",
     "sports": "Sport",
     "technology": "Tehnologija"
+  },
+  "TopHeadlines": {
+    "spinnerText": "Učitavam glavne članke..."
+  },
+  "Everything": {
+    "spinnerText": "Učitavam članke..."
   }
 }

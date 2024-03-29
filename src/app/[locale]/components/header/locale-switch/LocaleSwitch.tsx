@@ -23,7 +23,7 @@ export function LocalSwitch({ tabIndex, disabled, ...rest }: LocalSwitchProps) {
 
   const pathname = usePathname();
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     startTransition(() => {
       const pathnameSegments = pathname.split("/");
 
@@ -37,15 +37,11 @@ export function LocalSwitch({ tabIndex, disabled, ...rest }: LocalSwitchProps) {
 
       router.replace(pathnameSegments.join("/"));
     });
-  };
+  }
 
   return supportedLanguages.locales.length !== 0 ? (
     <>
-      <label
-        // htmlFor={!isPending && !disabled ? "ChangeLanguage" : undefined}
-        htmlFor="ChangeLanguage"
-        className="sr-only"
-      >
+      <label htmlFor="ChangeLanguage" className="sr-only">
         Change Language
       </label>
       <select

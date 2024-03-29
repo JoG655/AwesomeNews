@@ -5,7 +5,7 @@ import type { EverythingArgs } from "./components/everything/Everything";
 import { Everything } from "./components/everything/Everything";
 
 type LocalePageProps = {
-  searchParams: TopHeadlinesArgs & EverythingArgs;
+  searchParams: Omit<TopHeadlinesArgs, "pageSize"> & EverythingArgs;
 };
 
 export default function LocalePage({ searchParams }: LocalePageProps) {
@@ -18,12 +18,9 @@ export default function LocalePage({ searchParams }: LocalePageProps) {
       />
       <Everything
         q={searchParams.q}
-        qInTitle={searchParams.qInTitle}
-        to={searchParams.to}
-        from={searchParams.from}
         language={searchParams.language ? searchParams.language : "en"}
-        pageSize={searchParams.pageSize ? searchParams.pageSize : 5}
-        page={searchParams.page ? searchParams.page : 1}
+        pageSize={searchParams.pageSize ? searchParams.pageSize : "5"}
+        page={searchParams.page ? searchParams.page : "1"}
       />
     </>
   );

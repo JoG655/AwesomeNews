@@ -13,8 +13,8 @@
     "banner8Text": "Coding"
   },
   "Bonus": {
-    "spinnerText": "Učitavam...",
-    "buttonText": "Learn more"
+    "buttonText": "Learn more",
+    "spinnerText": "Loading..."
   },
   "Article": {
     "readingTimeText": "Reading Time"
@@ -27,5 +27,11 @@
     "science": "Science",
     "sports": "Sports",
     "technology": "Technology"
+  },
+  "TopHeadlines": {
+    "spinnerText": "Loading main articles..."
+  },
+  "Everything": {
+    "spinnerText": "Loading articles..."
   }
 }

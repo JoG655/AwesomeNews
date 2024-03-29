@@ -207,7 +207,13 @@ export async function getTopHeadlinesData(
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    try {
+      const resError = await res.json();
+
+      throw new Error(`Failed to fetch data: ${resError.message}`);
+    } catch (error) {
+      throw new Error(`Failed to fetch data: ${error}`);
+    }
   }
 
   return res.json();
@@ -276,7 +282,13 @@ export async function getEverythingData(
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    try {
+      const resError = await res.json();
+
+      throw new Error(`Failed to fetch data: ${resError.message}`);
+    } catch (error) {
+      throw new Error(`Failed to fetch data: ${error}`);
+    }
   }
 
   return res.json();
