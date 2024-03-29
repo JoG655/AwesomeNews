@@ -41,7 +41,7 @@ export function MainArticle({
         </div>
       </div>
       <ArticlePicture
-        className="mt-6 h-80 w-full"
+        className="mt-6 h-[400px] w-full"
         image={{ src: urlToImage, alt: title }}
       />
       <div className="font-bold">{description}</div>
