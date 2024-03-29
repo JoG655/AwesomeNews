@@ -3,9 +3,11 @@ import type {
   NewsApiTopHeadlinesParams,
 } from "@/api/news-api/newsAPI";
 
+import type { Url } from "next/dist/shared/lib/router/router";
+
 import { ComponentPropsWithoutRef } from "react";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import Link from "next/link";
 
@@ -18,11 +20,12 @@ import { readingTime } from "@/utils/reading-time/readingTime";
 type LinkPartial = {
   category?: NewsApiTopHeadlinesParams["category"];
   className?: ComponentPropsWithoutRef<"a">["className"];
+  href: Url;
 };
 
 type ArticlePartial = Omit<
   NewsApiArticle,
-  "source" | "author" | "description"
+  "url" | "source" | "author" | "description"
 > & {
   variant: "sm" | "md" | "lg";
 };
@@ -35,20 +38,22 @@ export function Article({
   urlToImage,
   publishedAt,
   content,
-  url,
   category,
   className,
+  href,
 }: ArticleProps) {
   const tArticle = useTranslations("Article");
 
   const tCategory = useTranslations("Category");
+
+  const locale = useLocale();
 
   const date = new Date(publishedAt);
 
   return (
     <article className="basis-full p-2">
       <Link
-        href={url}
+        href={href}
         className={twMerge(
           "relative flex scale-[0.98] flex-col gap-4 overflow-hidden rounded-lg bg-white p-2 ring-focus transition hover:scale-100 hover:cursor-pointer focus:scale-100 focus:outline-none focus-visible:ring-4",
           className,

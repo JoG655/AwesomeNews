@@ -18,7 +18,7 @@ export default function BonusPage() {
   const tBonus = useTranslations("Bonus");
 
   return (
-    <main className="flex flex-grow flex-col">
+    <div className="flex flex-grow flex-col">
       <div className="grid flex-grow grid-cols-[auto,minmax(0,1fr)] overflow-auto">
         <div className="text-center">
           <div className="relative z-0 grid place-content-center overflow-hidden p-6 lg:p-8">
@@ -95,6 +95,6 @@ export default function BonusPage() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

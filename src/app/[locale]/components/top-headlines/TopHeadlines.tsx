@@ -3,9 +3,13 @@ import { getTopHeadlinesData } from "@/api/news-api/newsAPI";
 
 import { Suspense } from "react";
 
+import { useLocale } from "next-intl";
+
 import { Spinner } from "@/components/spinner/Spinner";
 
 import { Article } from "@/components/article/Article";
+
+import { encodeString } from "@/utils/string-manipulation/encodeString";
 
 type TopHeadlinesProps = {
   country: ApiNewsCountry;
@@ -20,6 +24,8 @@ export async function TopHeadlines({
   category,
   pageSize,
 }: TopHeadlinesProps) {
+  const locale = useLocale();
+
   const data = await getTopHeadlinesData({
     country,
     category,
@@ -32,12 +38,32 @@ export async function TopHeadlines({
     <section className="flex flex-col gap-5">
       <Suspense fallback={<Spinner>Loading Top Headlines...</Spinner>}>
         <section>
-          <Article variant="lg" {...mainArticle} category="business" />
+          <Article
+            variant="lg"
+            {...mainArticle}
+            category="business"
+            href={{
+              pathname: `/${locale}/}`,
+              query: encodeString({
+                qInTitle: mainArticle.title.slice(0, 200),
+              }),
+            }}
+          />
         </section>
 
         <section className="lg:flex lg:flex-nowrap">
           {articles.map((article) => (
-            <Article variant="md" key={article.title} {...article} />
+            <Article
+              variant="md"
+              key={article.title}
+              {...article}
+              href={{
+                pathname: `/${locale}/}`,
+                query: encodeString({
+                  qInTitle: article.title.slice(0, 200),
+                }),
+              }}
+            />
           ))}
         </section>
       </Suspense>
